@@ -1,17 +1,17 @@
 ---
 name: vibe-code-security-audit
-description: Audit a vibe-coded app for the most common security flaws — auth tokens in localStorage, client-side admin/role checks, missing rate limits on login/signup/AI endpoints, secrets exposed in the frontend, missing Supabase RLS + GRANTs, weak or unchecked passwords, no 2FA/email verification, and sessions that survive logout. Trigger on requests like "run the security audit", "check my app for security issues", "is my vibe-coded app safe", "audit my login", "check for exposed secrets", or after a user ships auth/login features. Runs a repo scan and walks copy-pasteable fixes one issue at a time.
+description: Audit a vibe-coded app for the most common security & reliability flaws — auth tokens in localStorage, client-side admin/role checks, missing rate limits on login/signup/AI endpoints, secrets exposed in the frontend, missing Supabase RLS + GRANTs, weak or unchecked passwords, no 2FA/email verification, sessions that survive logout, PII being logged, 4-byte UTF-8 / emoji crashes, and missing tests / observability. Trigger on requests like "run the security audit", "check my app for security issues", "is my vibe-coded app safe", "audit my login", "check for exposed secrets", "am I logging PII", "will emojis crash my app", or after a user ships auth/login/checkout features. Runs a repo scan and walks copy-pasteable fixes one issue at a time.
 ---
 
 # Vibe-Code Security Audit
 
-This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app. It scans the repo for the top ~10 issues that break real apps once users show up, groups findings by severity, and offers a copy-pasteable fix for each one from `references/`.
+This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app. It scans the repo for the top ~12 issues that break real apps once users show up, groups findings by severity, and offers a copy-pasteable fix for each one from `references/`.
 
 ## When to trigger
 
 - The user asks to audit, harden, or "security check" the app.
-- The user just added login, signup, password reset, admin pages, RLS, or an AI endpoint.
-- The user asks about a specific symptom this skill covers (e.g. "is localStorage safe for tokens", "how do I rate limit login").
+- The user just added login, signup, password reset, admin pages, RLS, checkout, or an AI endpoint.
+- The user asks about a specific symptom this skill covers (e.g. "is localStorage safe for tokens", "how do I rate limit login", "am I logging PII", "why does an emoji crash my app").
 
 ## Workflow
 
@@ -42,7 +42,9 @@ This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app
 | 7 | `public.*` tables created without RLS + `GRANT`s | `references/07-rls-policies.md` |
 | 8 | Logout that doesn't clear query cache / revoke session | `references/08-logout-invalidation.md` |
 | 9 | Heavy work (email, PDF, AI) done inline instead of async server-side | `references/09-async-and-load.md` |
-| 10 | Auth route/component with no route guard (public + `_authenticated` mixed up) | Inline in the report; usually pairs with #2 or #8 |
+| 10 | PII (user objects, tokens, card data) written to `console.log` / logs | `references/10-pii-in-logs.md` |
+| 11 | 4-byte UTF-8 / emoji crashes — `utf8` vs `utf8mb4`, `.length` vs grapheme count, tight `varchar(N)` | `references/11-utf8mb4-emoji.md` |
+| 12 | No test suite and/or no observability (Sentry, health check, uptime) before launch | `references/12-tests-and-observability.md` |
 
 ## Non-goals
 

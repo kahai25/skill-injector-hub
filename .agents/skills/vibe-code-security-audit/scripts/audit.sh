@@ -136,11 +136,60 @@ if [ -n "$matches" ]; then
 fi
 
 # ---------------------------------------------------------------------------
+section "10. PII in logs"
+# console.log of user/session/request-body/webhook payloads — the classic PII leak.
+matches=$(scan -g 'src/**' \
+  -e 'console\.(log|error|warn|info|debug)\([^)]*\b(user|session|profile|request\.body|req\.body|payload|event\.data|customer|card|payment_intent|password|token)\b' || true)
+if [ -n "$matches" ]; then
+  echo "$matches" | while IFS= read -r l; do high "$l" "references/10-pii-in-logs.md"; done
+else info "no obvious PII in console.* calls" "references/10-pii-in-logs.md"; fi
+
+# ---------------------------------------------------------------------------
+section "11. Emoji / 4-byte UTF-8 safety"
+# a) MySQL/MariaDB migrations using utf8 instead of utf8mb4
+matches=$(scan -g '**/migrations/**' -g '*.sql' \
+  -e 'CHARACTER SET utf8[^m]' -e 'CHARSET=utf8[^m]' -e "charset:\s*['\"]utf8['\"]" -i || true)
+if [ -n "$matches" ]; then
+  echo "$matches" | while IFS= read -r l; do high "$l  (use utf8mb4)" "references/11-utf8mb4-emoji.md"; done
+fi
+# b) Tight varchar(N) with N <= 32 in Postgres migrations — likely to bite on multi-byte input
+matches=$(scan -g 'supabase/migrations/**' -e 'varchar\(([1-9]|[12][0-9]|3[0-2])\)' -i || true)
+if [ -n "$matches" ]; then
+  echo "$matches" | while IFS= read -r l; do med "$l  (tight varchar; validate by grapheme)" "references/11-utf8mb4-emoji.md"; done
+fi
+# c) Client-side .length bounds on user text without Intl.Segmenter
+if scan -g 'src/**' -e '\.length\s*[<>]=?\s*(1[5-9]|[2-9][0-9]|1[0-9]{2,})' >/dev/null 2>&1; then
+  if ! scan -g 'src/**' -e 'Intl\.Segmenter|grapheme' >/dev/null 2>&1; then
+    info "length-based validation found but no Intl.Segmenter — emoji may miscounted" "references/11-utf8mb4-emoji.md"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+section "12. Tests & observability"
+# a) No test files at all
+test_files=$(find . -type f \( -name '*.test.ts' -o -name '*.test.tsx' -o -name '*.spec.ts' -o -name '*.spec.tsx' \) \
+  ! -path '*/node_modules/*' 2>/dev/null | head -5 || true)
+if [ -z "$test_files" ]; then
+  med "no *.test.* or *.spec.* files found" "references/12-tests-and-observability.md"
+else
+  info "test files present" "references/12-tests-and-observability.md"
+fi
+# b) No error reporting wired
+if ! scan -e '@sentry/|Sentry\.init|posthog|datadog' -i >/dev/null 2>&1; then
+  med "no error-reporting SDK detected (Sentry/PostHog/Datadog)" "references/12-tests-and-observability.md"
+fi
+# c) No health check endpoint
+if ! scan -g 'src/routes/api/**' -e '/health|/healthz|/status' >/dev/null 2>&1; then
+  info "no /health endpoint found for uptime monitoring" "references/12-tests-and-observability.md"
+fi
+
+# ---------------------------------------------------------------------------
 echo
 echo "${CYA}== Summary ==${RST}"
 printf "  CRITICAL: %d\n  HIGH:     %d\n  MEDIUM:   %d\n  INFO:     %d\n" "$CRIT" "$HIGH" "$MED" "$INFO"
 echo
 echo "Fix references live in: .workspace/skills/vibe-code-security-audit/references/"
+
 
 total=$((CRIT + HIGH))
 [ "$total" -gt 125 ] && total=125
