@@ -1,94 +1,84 @@
-## What the 3 new videos cover
+## The 5 pending videos (2 from last message + 3 new)
 
 | Video | Topic | Skill target |
 | --- | --- | --- |
-| Costco security guy (df96…) | **IDOR** (guessable URL IDs return other users' data) + stale-session-after-logout | extend `vibe-code-security-audit` |
-| "Claude forgot 5 perf things" (fca2…) | JSON not gzipped, one-row-at-a-time inserts, single dependency bottleneck, no optimistic UI, no SSR/static HTML caching | **new** `vibe-code-performance-audit` |
-| "48hr iOS in 4 docs" (d65d…) | Four-document spec framework — PRD, architecture doc, AI rules doc, step-by-step plan (one step at a time) | **new** `four-doc-spec-framework` |
+| BetterHelp / FTC $7.8M (6962…) | Privacy policy must match what the site actually collects (pixels, chat, CRM, AI) | **new** `privacy-policy-audit` |
+| Sam.AIBuilds "Fable 5" (00a7…) | Multi-agent loop: brainstorm → Linear tickets → agent references → Opus deploys | fold into `four-doc-spec-framework` (recommended) |
+| Launch-day checklist (d3dd…) | Privacy policy, support URL, App Store keywords + screenshots, OG tags, Google Search Console, IndexNow, Bing Webmasters, launch post / email / social | **extend** `launch-polish-checklist` |
+| Startup vocab (e87f…) | TAM/SAM/SOM, beachhead, moats, red/blue ocean, category creation, vertical/horizontal SaaS | **new** `startup-strategy-primer` (reference-style) |
+| "Bible / atheist to Christ" (afc19…) | Religious content — unrelated to app building | **skip** |
 
-Logout invalidation is already covered in `vibe-code-security-audit/references/08-logout-invalidation.md`, so no duplicate work there.
-
-## Deliverable 1 — extend `vibe-code-security-audit`
-
-Add one new reference and one scanner check:
-
-- `references/13-idor.md` — Insecure Direct Object Reference. Detect endpoints / server functions that read `params.id` (or `data.id`) and query the target row **without** filtering by `auth.uid()` / verifying ownership. Fix patterns:
-  - Supabase: RLS policy `USING (user_id = auth.uid())`, plus never trust client-sent `user_id` — always overwrite with `auth.uid()` on write.
-  - Server fn: after `requireSupabaseAuth`, use the request-scoped `supabase` client (RLS applies) — do **not** reach for `supabaseAdmin` to fetch user data.
-  - Prefer opaque IDs (`uuid`) over sequential integers in URLs.
-- `scripts/audit.sh` additions:
-  - `rg` for `supabaseAdmin\.from\(` inside `*.functions.ts` / route handlers (RLS bypass on user data path).
-  - `rg` for `.eq\('id',\s*(params|data)\.id\)` **without** a sibling `.eq('user_id'` or `auth.uid()` reference in the same handler.
-  - `rg` for sequential `bigserial` / `serial` primary keys on user-owned tables in migrations (recommend `uuid default gen_random_uuid()`).
-
-Then re-apply the skill via `skills--apply_draft .agents/skills/vibe-code-security-audit`.
-
-## Deliverable 2 — new skill `vibe-code-performance-audit`
-
-Draft path: `.agents/skills/vibe-code-performance-audit/`
+## Deliverable 1 — `privacy-policy-audit` (new)
 
 ```
-.agents/skills/vibe-code-performance-audit/
+.agents/skills/privacy-policy-audit/
 ├── SKILL.md
-├── scripts/perf-audit.sh
+├── scripts/privacy-scan.sh          # rg-based tracker/integration detector
+├── assets/privacy-policy.template.md
 └── references/
-    ├── 1-compression.md        # gzip/br on server responses; Vite/TanStack Start compress plugin
-    ├── 2-batch-inserts.md      # single .insert([...]) vs loops of insert(); upsert batching
-    ├── 3-latency-breakdown.md  # how to trace round-trip: Network panel, server-timing headers,
-    │                           # identifying the single blocking dependency (auth check, N+1 query, external API)
-    ├── 4-optimistic-ui.md      # TanStack Query onMutate + setQueryData rollback pattern
-    └── 5-ssr-static-caching.md # TanStack Start prerender for marketing routes, CDN Cache-Control,
-                                # stale-while-revalidate for logged-out pages
+    ├── 1-what-collects-data.md      # inventory: pixels, analytics, chat, CRM,
+    │                                # forms, email, AI, auth, payments, storage
+    ├── 2-policy-must-match.md       # FTC unfair/deceptive rule; BetterHelp case study
+    ├── 3-cookie-consent.md          # EU/UK banner + consent gating for non-essential
+    └── 4-data-processor-list.md     # sub-processor list + where data flows
 ```
 
-**Trigger phrases**: "audit performance", "my app feels slow", "why is loading slow", "make it faster before launch".
+Scanner detects Meta/Google/TikTok/LinkedIn Pixels, Hotjar/Clarity/PostHog/Mixpanel/Segment, Intercom/Crisp/Drift, HubSpot/Salesforce, Mailchimp/Klaviyo/Resend, Typeform/Tally, Calendly/Cal.com, OpenAI/Anthropic/AI Gateway, Stripe/Paddle, Supabase Storage/Cloudinary, and cookie-consent libs. Output: "you collect via X" + "policy must cover Y" + "cookie banner present/missing".
 
-**Scanner (`perf-audit.sh`)** — `rg`-only, no installs:
-- Loops that call `supabase.from(...).insert(` inside `for` / `.forEach` / `.map` — flag batch-insert opportunity.
-- Mutations without `onMutate` in the codebase (grep `useMutation\(` bodies missing `onMutate:`) — flag missing optimistic UI.
-- No compression config in `vite.config.ts` / no `Cache-Control` header set anywhere in `src/routes/api/`.
-- No `prerender` / `ssg` config on marketing-style routes (index, pricing, about) — flag as opportunity.
-- `await` chains in a single handler with 3+ sequential `await supabase...` calls that don't reference each other's results — candidate for `Promise.all`.
+Triggers: "privacy policy", "GDPR", "cookie consent", "am I compliant", "check my tracking".
 
-## Deliverable 3 — new skill `four-doc-spec-framework`
+## Deliverable 2 — extend `four-doc-spec-framework`
 
-Draft path: `.agents/skills/four-doc-spec-framework/`
+Add `references/multi-agent-tickets.md` — treat each item in `docs/4-plan.md` as a ticket with:
+- **Context** (link the PRD / architecture doc rows it touches)
+- **Dependencies / blockers**
+- **Acceptance criteria**
+- **One agent per ticket, one ticket per turn**
+
+Tool-agnostic — mentions Linear as one option but doesn't require it. This is the transferable idea from the Fable 5 video without pitching a specific stack.
+
+## Deliverable 3 — extend `launch-polish-checklist`
+
+Existing skill already covers plan/review/design/copy. Add:
+
+- `references/5-launch-day-checklist.md`:
+  - **Legal**: privacy policy, terms of service, cookie banner, support email + support URL
+  - **Metadata**: title, description, OG image, twitter:card, favicon, apple-touch-icon, manifest
+  - **SEO**: sitemap.xml, robots.txt, canonical URLs, Google Search Console verified + sitemap submitted, Bing Webmasters submitted, **IndexNow** ping wired up
+  - **App Store** (if iOS/Android): screenshots at required sizes, keywords, subtitle, promotional text, app privacy nutrition label matches actual data collection
+  - **Marketing pre-launch**: launch tweet drafted, Product Hunt scheduled, email list warmed, waitlist notified, Discord/Slack ping ready
+- `scripts/launch-check.sh` additions: check for `sitemap.xml`, `robots.txt`, `<meta property="og:*">`, `<link rel="canonical">`, `apple-touch-icon`, and manifest.json.
+
+## Deliverable 4 — `startup-strategy-primer` (new, reference-only)
+
+Small skill, no scanner. Just definitions + when-to-care-about-each, so the agent can answer "should I be worried about switching costs" or "what's my TAM" without hallucinating.
 
 ```
-.agents/skills/four-doc-spec-framework/
+.agents/skills/startup-strategy-primer/
 ├── SKILL.md
-├── assets/
-│   ├── 1-prd.template.md              # What the app IS and IS NOT (scope + non-goals)
-│   ├── 2-architecture.template.md     # Folder layout, data model, module boundaries
-│   ├── 3-ai-rules.template.md         # Stack non-negotiables (e.g. "TanStack Start only",
-│   │                                  # "secrets via secrets tool", "no localStorage tokens")
-│   └── 4-plan.template.md             # Numbered steps; rule: work ONE step at a time,
-│                                      # do not start step N+1 until N is verified
 └── references/
-    ├── how-to-run.md                  # Order of operations, when to fill each doc,
-    │                                  # how to feed them to Lovable ("read /docs/prd.md and
-    │                                  # /docs/ai-rules.md before making changes")
-    └── examples/                      # 1 filled example set (todo app) so users see the format
+    ├── 1-market-sizing.md    # TAM / SAM / SOM with a worked example
+    ├── 2-beachhead.md        # narrow beachhead → adjacent expansion (Amazon books → everything)
+    ├── 3-moats.md            # network effects, switching costs, brand, data, scale
+    ├── 4-competition.md      # Red vs Blue ocean; category creation
+    ├── 5-saas-shapes.md      # vertical SaaS, horizontal SaaS, platform, marketplace, aggregator
+    └── 6-timing.md           # market timing — too early = dead, too late = crowded
 ```
 
-**Trigger phrases**: "help me plan a new app", "spec out this app", "PRD", "before I start building", "scope creep".
-
-**Workflow encoded in SKILL.md**:
-1. Ask the user for a one-paragraph app idea.
-2. Generate filled versions of the four docs under `docs/` in their project, using the templates in `assets/`.
-3. Explicitly write the non-goals section in the PRD (this is the scope-creep guard).
-4. Recommend committing the four docs before writing any feature code, and referencing them in future prompts.
-
-No `apply_draft` call for this one until you approve — same pattern as before.
+Triggers: "TAM", "SAM", "beachhead", "moat", "should I pick vertical or horizontal", "am I too early", "startup strategy".
 
 ## What I will NOT change
 
-- No app source files (only `.agents/skills/` additions).
-- `routeTree.gen.ts` regenerates automatically; ignore.
-- No new dependencies.
+- Skip the Bible video — off-topic.
+- No app source files. Only `.agents/skills/` additions.
+- No DB / Shopify / Stripe changes.
 
-## Order of operations after approval
+## Order of operations
 
-1. Write files for all three deliverables in parallel.
-2. Call `skills--apply_draft` on `vibe-code-security-audit` (updated), `vibe-code-performance-audit`, and `four-doc-spec-framework`.
-3. Confirm the three skills are live and list their trigger phrases.
+1. Write all files in parallel.
+2. Apply the four updated/new skills:
+   - `privacy-policy-audit` (new)
+   - `four-doc-spec-framework` (updated)
+   - `launch-polish-checklist` (updated)
+   - `startup-strategy-primer` (new)
+3. Report trigger phrases for each.
