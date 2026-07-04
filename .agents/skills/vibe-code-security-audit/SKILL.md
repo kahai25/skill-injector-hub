@@ -1,6 +1,6 @@
 ---
 name: vibe-code-security-audit
-description: Audit a vibe-coded app for the most common security & reliability flaws — auth tokens in localStorage, client-side admin/role checks, missing rate limits on login/signup/AI endpoints, secrets exposed in the frontend, missing Supabase RLS + GRANTs, weak or unchecked passwords, no 2FA/email verification, sessions that survive logout, PII being logged, 4-byte UTF-8 / emoji crashes, and missing tests / observability. Trigger on requests like "run the security audit", "check my app for security issues", "is my vibe-coded app safe", "audit my login", "check for exposed secrets", "am I logging PII", "will emojis crash my app", or after a user ships auth/login/checkout features. Runs a repo scan and walks copy-pasteable fixes one issue at a time.
+description: Audit a vibe-coded app for the most common security & reliability flaws — auth tokens in localStorage, client-side admin/role checks, missing rate limits on login/signup/AI endpoints, secrets exposed in the frontend, missing Supabase RLS + GRANTs, weak or unchecked passwords, no 2FA/email verification, sessions that survive logout, IDOR (guessable IDs return other users' data), PII being logged, 4-byte UTF-8 / emoji crashes, and missing tests / observability. Trigger on requests like "run the security audit", "check my app for security issues", "is my vibe-coded app safe", "audit my login", "check for exposed secrets", "am I logging PII", "will emojis crash my app", "can users see each other's data", or after a user ships auth/login/checkout features. Runs a repo scan and walks copy-pasteable fixes one issue at a time.
 ---
 
 # Vibe-Code Security Audit
@@ -45,6 +45,7 @@ This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app
 | 10 | PII (user objects, tokens, card data) written to `console.log` / logs | `references/10-pii-in-logs.md` |
 | 11 | 4-byte UTF-8 / emoji crashes — `utf8` vs `utf8mb4`, `.length` vs grapheme count, tight `varchar(N)` | `references/11-utf8mb4-emoji.md` |
 | 12 | No test suite and/or no observability (Sentry, health check, uptime) before launch | `references/12-tests-and-observability.md` |
+| 13 | IDOR — endpoints read rows by ID without checking ownership; sequential IDs in URLs; `supabaseAdmin` on user data path | `references/13-idor.md` |
 
 ## Non-goals
 

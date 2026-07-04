@@ -184,6 +184,28 @@ if ! scan -g 'src/routes/api/**' -e '/health|/healthz|/status' >/dev/null 2>&1; 
 fi
 
 # ---------------------------------------------------------------------------
+section "13. IDOR — object access without ownership check"
+# a) supabaseAdmin (service role) used inside server functions / route handlers
+matches=$(scan -g 'src/**/*.functions.*' -g 'src/routes/api/**' \
+  -e 'supabaseAdmin\.from\(' || true)
+if [ -n "$matches" ]; then
+  echo "$matches" | while IFS= read -r l; do high "$l  (RLS bypass on user data path)" "references/13-idor.md"; done
+fi
+# b) handlers that filter by id from params/data with no user_id / auth.uid() nearby
+candidates=$(scan -l -g 'src/**/*.functions.*' -g 'src/routes/api/**' \
+  -e "\.eq\(\s*['\"]id['\"]\s*,\s*(params|data|input|body)\." || true)
+for f in $candidates; do
+  if ! rg -q -e "user_id|auth\.uid\(\)|context\.userId|requireSupabaseAuth" "$f" 2>/dev/null; then
+    high "$f  (id-lookup without ownership check)" "references/13-idor.md"
+  fi
+done
+# c) sequential integer PKs in user-owned tables
+matches=$(scan -g 'supabase/migrations/**' -e '\b(bigserial|serial)\s+primary\s+key' -i || true)
+if [ -n "$matches" ]; then
+  echo "$matches" | while IFS= read -r l; do med "$l  (prefer uuid for user-referenced ids)" "references/13-idor.md"; done
+fi
+
+# ---------------------------------------------------------------------------
 echo
 echo "${CYA}== Summary ==${RST}"
 printf "  CRITICAL: %d\n  HIGH:     %d\n  MEDIUM:   %d\n  INFO:     %d\n" "$CRIT" "$HIGH" "$MED" "$INFO"
