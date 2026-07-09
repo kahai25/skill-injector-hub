@@ -86,12 +86,21 @@ matches=$(scan -e 'VITE_[A-Z0-9_]*(SECRET|PRIVATE|SERVICE_ROLE|SERVICE_KEY|API_K
 if [ -n "$matches" ]; then
   echo "$matches" | while IFS= read -r l; do crit "$l" "references/06-secrets-hygiene.md"; done
 fi
-# b) service_role / sk_live / sb_secret literals in tracked files
-matches=$(scan -e 'service_role|sk_live_[A-Za-z0-9]+|sb_secret_[A-Za-z0-9]+|-----BEGIN (RSA |EC )?PRIVATE KEY-----' || true)
+# b) service_role / sk_live / sb_secret / vendor key literals in tracked files
+matches=$(scan -e 'service_role|sk_live_[A-Za-z0-9]+|sk_test_[A-Za-z0-9]+|sb_secret_[A-Za-z0-9]+|sk-ant-[A-Za-z0-9_-]{20,}|sk-proj-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|ghp_[A-Za-z0-9]{36}|xoxb-[A-Za-z0-9-]{20,}|re_[A-Za-z0-9_]{20,}|-----BEGIN (RSA |EC )?PRIVATE KEY-----' || true)
 if [ -n "$matches" ]; then
   echo "$matches" | while IFS= read -r l; do crit "$l" "references/06-secrets-hygiene.md"; done
 fi
-# c) committed .env* files (any that aren't .env.example)
+# c) built bundle (dist/) — Vite inlines VITE_* here; attackers open DevTools Network and grep
+if [ -d dist ]; then
+  bundle_matches=$(rg --no-heading -n --color=never -S \
+    -e 'sk-ant-[A-Za-z0-9_-]{20,}|sk-proj-[A-Za-z0-9_-]{20,}|sk_live_[A-Za-z0-9]+|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xoxb-[A-Za-z0-9-]{20,}|service_role|sb_secret_[A-Za-z0-9]+' \
+    dist 2>/dev/null || true)
+  if [ -n "$bundle_matches" ]; then
+    echo "$bundle_matches" | while IFS= read -r l; do crit "$l (LEAKED IN BUILT BUNDLE — rotate key now)" "references/06-secrets-hygiene.md"; done
+  fi
+fi
+# d) committed .env* files (any that aren't .env.example)
 env_files=$(find . -maxdepth 3 -type f \( -name '.env' -o -name '.env.*' \) \
   ! -name '.env.example' ! -name '.env.template' ! -path '*/node_modules/*' 2>/dev/null || true)
 if [ -n "$env_files" ]; then
