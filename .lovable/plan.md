@@ -1,84 +1,73 @@
-## The 5 pending videos (2 from last message + 3 new)
+## The 10 videos, grouped
 
-| Video | Topic | Skill target |
+| Video | Topic | Action |
 | --- | --- | --- |
-| BetterHelp / FTC $7.8M (6962…) | Privacy policy must match what the site actually collects (pixels, chat, CRM, AI) | **new** `privacy-policy-audit` |
-| Sam.AIBuilds "Fable 5" (00a7…) | Multi-agent loop: brainstorm → Linear tickets → agent references → Opus deploys | fold into `four-doc-spec-framework` (recommended) |
-| Launch-day checklist (d3dd…) | Privacy policy, support URL, App Store keywords + screenshots, OG tags, Google Search Console, IndexNow, Bing Webmasters, launch post / email / social | **extend** `launch-polish-checklist` |
-| Startup vocab (e87f…) | TAM/SAM/SOM, beachhead, moats, red/blue ocean, category creation, vertical/horizontal SaaS | **new** `startup-strategy-primer` (reference-style) |
-| "Bible / atheist to Christ" (afc19…) | Religious content — unrelated to app building | **skip** |
+| 2e02 | SEO checklist: Search Console, Bing, sitemap, OG, IndexNow | Already covered by `launch-polish-checklist` Stage 5 — reinforcement, no change |
+| 36d8 + 8823 (dupes) | AI cost limits bypassed via misconfigured Supabase RLS | Extend `vibe-code-security-audit`: new `references/15-ai-usage-caps.md` (server-enforced per-user quotas + RLS on the quota table) |
+| 4f0b + 5fc9 | ADA lawsuits scan vibe-coded sites; settle for $10–50k | **NEW** `ada-accessibility-audit` skill |
+| 5866 | "Stop being an ignorant dick" — motivational rant | **Skip** |
+| 5e0e | Hard-to-hack stacks: Cloudflare, Firebase, Supabase, Clerk | Add one-liner to `vibe-code-security-audit` SKILL.md ("stacks worth defaulting to") — no new file |
+| 6b60 | 4 questions to ask Claude before shipping: secure / efficient / regressions / tests | **NEW** `pre-ship-verification` skill (tiny — SKILL.md + one reference) |
+| 8eef | Spot vibe-coded sites: Lovable badge visible, scroll anim overkill, no legal footer, broken buy buttons | Extend `launch-polish-checklist` Stage 5: hide dev badge, functional test every CTA, footer legal links present |
+| a9d7 | Under attack: fake signups spamming GDPR email endpoint → needs IP ban | Extend `vibe-code-security-audit`: new `references/16-abuse-mitigation.md` (IP throttling, captcha on public forms, disposable-email block, per-IP signup cap) |
 
-## Deliverable 1 — `privacy-policy-audit` (new)
+## Deliverable 1 — NEW `ada-accessibility-audit`
 
 ```
-.agents/skills/privacy-policy-audit/
+.agents/skills/ada-accessibility-audit/
 ├── SKILL.md
-├── scripts/privacy-scan.sh          # rg-based tracker/integration detector
-├── assets/privacy-policy.template.md
+├── scripts/ada-scan.sh              # rg-based static WCAG scan
 └── references/
-    ├── 1-what-collects-data.md      # inventory: pixels, analytics, chat, CRM,
-    │                                # forms, email, AI, auth, payments, storage
-    ├── 2-policy-must-match.md       # FTC unfair/deceptive rule; BetterHelp case study
-    ├── 3-cookie-consent.md          # EU/UK banner + consent gating for non-essential
-    └── 4-data-processor-list.md     # sub-processor list + where data flows
+    ├── 1-why-lawsuits.md            # ADA Title III demand letters, $10–50k settlements
+    ├── 2-wcag-quick-wins.md         # alt text, labels, contrast, focus, keyboard, aria
+    ├── 3-semantic-html.md           # headings order, landmarks, lists, buttons vs divs
+    └── 4-widget-vs-real-fix.md      # overlays (accessiBe/UserWay) are lawsuit magnets — do the real fix
 ```
 
-Scanner detects Meta/Google/TikTok/LinkedIn Pixels, Hotjar/Clarity/PostHog/Mixpanel/Segment, Intercom/Crisp/Drift, HubSpot/Salesforce, Mailchimp/Klaviyo/Resend, Typeform/Tally, Calendly/Cal.com, OpenAI/Anthropic/AI Gateway, Stripe/Paddle, Supabase Storage/Cloudinary, and cookie-consent libs. Output: "you collect via X" + "policy must cover Y" + "cookie banner present/missing".
+Scanner checks: `<img>` without `alt`, `<button>` / `<a>` empty text, `<div onClick>`, missing `<label htmlFor>`, `role=` without keyboard handler, single `<h1>`, no `lang` on `<html>`, no skip-link, missing `<main>` / `<nav>` landmarks, positive `tabindex`, autoplay video without controls, color-only state signals (best-effort — flags `text-red-500` on error text with no icon/text sibling).
 
-Triggers: "privacy policy", "GDPR", "cookie consent", "am I compliant", "check my tracking".
+Triggers: "ADA", "accessibility", "WCAG", "screen reader", "am I going to get sued", pre-launch pair with `launch-polish-checklist`.
 
-## Deliverable 2 — extend `four-doc-spec-framework`
+## Deliverable 2 — NEW `pre-ship-verification`
 
-Add `references/multi-agent-tickets.md` — treat each item in `docs/4-plan.md` as a ticket with:
-- **Context** (link the PRD / architecture doc rows it touches)
-- **Dependencies / blockers**
-- **Acceptance criteria**
-- **One agent per ticket, one ticket per turn**
+Small skill. One SKILL.md + one reference. The four-question gate before merging any AI-generated feature:
 
-Tool-agnostic — mentions Linear as one option but doesn't require it. This is the transferable idea from the Fable 5 video without pitching a specific stack.
+1. **Security** — auth, RLS, input validation, secrets, IDOR
+2. **Efficiency** — N+1 queries, missing indexes, unbounded loops, payload size
+3. **Regressions** — what existing paths does this touch? which tests cover them?
+4. **Tests** — what needs to exist before this ships? (unit / integration / manual)
 
-## Deliverable 3 — extend `launch-polish-checklist`
+Triggers automatically when the user says "is this ready to ship", "review this", "before I merge", "check this feature". Also useful as the last step of `four-doc-spec-framework` step execution.
 
-Existing skill already covers plan/review/design/copy. Add:
+## Deliverable 3 — extend `vibe-code-security-audit`
 
-- `references/5-launch-day-checklist.md`:
-  - **Legal**: privacy policy, terms of service, cookie banner, support email + support URL
-  - **Metadata**: title, description, OG image, twitter:card, favicon, apple-touch-icon, manifest
-  - **SEO**: sitemap.xml, robots.txt, canonical URLs, Google Search Console verified + sitemap submitted, Bing Webmasters submitted, **IndexNow** ping wired up
-  - **App Store** (if iOS/Android): screenshots at required sizes, keywords, subtitle, promotional text, app privacy nutrition label matches actual data collection
-  - **Marketing pre-launch**: launch tweet drafted, Product Hunt scheduled, email list warmed, waitlist notified, Discord/Slack ping ready
-- `scripts/launch-check.sh` additions: check for `sitemap.xml`, `robots.txt`, `<meta property="og:*">`, `<link rel="canonical">`, `apple-touch-icon`, and manifest.json.
+- `references/15-ai-usage-caps.md` — per-user token/cost caps stored in a Supabase table with RLS `using (auth.uid() = user_id)` and enforced **server-side** in the edge function before the AI call. Never trust client-side counters.
+- `references/16-abuse-mitigation.md` — public-form abuse pattern: per-IP signup rate limit (Upstash / KV), disposable-email blocklist, captcha on password reset & signup, IP ban table + middleware, alert on burst.
+- SKILL.md table gets rows #14 (AI cost caps) and #15 (public-form abuse / IP ban).
+- One-liner in SKILL.md preamble: "Default to stacks that harden the boring parts for you — Supabase RLS, Clerk auth, Cloudflare in front, Firebase rules — instead of hand-rolling."
 
-## Deliverable 4 — `startup-strategy-primer` (new, reference-only)
+## Deliverable 4 — extend `launch-polish-checklist` Stage 5
 
-Small skill, no scanner. Just definitions + when-to-care-about-each, so the agent can answer "should I be worried about switching costs" or "what's my TAM" without hallucinating.
+Add to `references/5-launch-day-checklist.md`:
+- **Dev badge off**: hide the Lovable badge before publishing (Publish settings → badge visibility).
+- **CTA smoke test**: click every "Buy" / "Sign up" / "Book" button on the live URL from a fresh browser — no dead links, no console errors, no 404s.
+- **Footer legal links**: Privacy, Terms, Contact, Support email — visible on every page footer (not just `/`).
+- **Animation restraint**: no more than ~2 scroll-triggered animations per section; respects `prefers-reduced-motion`.
 
-```
-.agents/skills/startup-strategy-primer/
-├── SKILL.md
-└── references/
-    ├── 1-market-sizing.md    # TAM / SAM / SOM with a worked example
-    ├── 2-beachhead.md        # narrow beachhead → adjacent expansion (Amazon books → everything)
-    ├── 3-moats.md            # network effects, switching costs, brand, data, scale
-    ├── 4-competition.md      # Red vs Blue ocean; category creation
-    ├── 5-saas-shapes.md      # vertical SaaS, horizontal SaaS, platform, marketplace, aggregator
-    └── 6-timing.md           # market timing — too early = dead, too late = crowded
-```
-
-Triggers: "TAM", "SAM", "beachhead", "moat", "should I pick vertical or horizontal", "am I too early", "startup strategy".
+`launch-check.sh` additions: grep for `data-lovable-badge`, check every route file references the footer component, `rg` for `prefers-reduced-motion` presence when Framer Motion / GSAP are imported.
 
 ## What I will NOT change
 
-- Skip the Bible video — off-topic.
+- Skip the "ignorant dick" motivational clip.
 - No app source files. Only `.agents/skills/` additions.
 - No DB / Shopify / Stripe changes.
 
 ## Order of operations
 
-1. Write all files in parallel.
-2. Apply the four updated/new skills:
-   - `privacy-policy-audit` (new)
-   - `four-doc-spec-framework` (updated)
+1. Write all new/edited files in parallel.
+2. Apply the four skills:
+   - `ada-accessibility-audit` (new)
+   - `pre-ship-verification` (new)
+   - `vibe-code-security-audit` (updated)
    - `launch-polish-checklist` (updated)
-   - `startup-strategy-primer` (new)
 3. Report trigger phrases for each.
