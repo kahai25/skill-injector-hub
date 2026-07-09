@@ -45,10 +45,29 @@ section "Structured data"
 check_rg "JSON-LD" 'application/ld\+json'
 
 section "Placeholders still in code (must be zero)"
-if rg -nq -S 'REPLACE this|PlaceholderIndex|Lovable App|Lovable Generated Project|lovable-blank-page-placeholder' src 2>/dev/null; then
-  warn "placeholder strings found — run: rg -n 'REPLACE this|PlaceholderIndex|Lovable App|Lovable Generated Project' src"
+if rg -nq -S 'REPLACE this|PlaceholderIndex|Lovable App|Lovable Generated Project|lovable-blank-page-placeholder|lorem ipsum|unsplash\.com/random' src 2>/dev/null; then
+  warn "placeholder strings found — run: rg -n 'REPLACE this|PlaceholderIndex|Lovable App|Lovable Generated Project|lorem ipsum' src"
 else
   ok "no placeholder strings"
 fi
 
-printf "\n\033[1mDone.\033[0m Any ✗ must be resolved before launch. Also run privacy-policy-audit and vibe-code-security-audit.\n"
+section "Vibe-coded tells"
+if rg -nq -S 'data-lovable-badge|LovableBadge|lovable\.dev/badge' src public 2>/dev/null; then
+  warn "Lovable badge markup found — verify Publish settings hides it before launch"
+else
+  ok "no visible Lovable badge markup"
+fi
+if rg -lq -S '"(framer-motion|gsap|@react-spring)"' package.json 2>/dev/null; then
+  if rg -nq -S 'prefers-reduced-motion|useReducedMotion' src 2>/dev/null; then
+    ok "motion library respects reduced-motion"
+  else
+    warn "motion library imported but no prefers-reduced-motion / useReducedMotion check"
+  fi
+fi
+if rg -lq -S '(Footer|SiteFooter)' src 2>/dev/null; then
+  ok "footer component present"
+else
+  warn "no Footer component found — legal links likely missing on inner routes"
+fi
+
+printf "\n\033[1mDone.\033[0m Any ✗ must be resolved before launch. Also run privacy-policy-audit, ada-accessibility-audit, and vibe-code-security-audit.\n"

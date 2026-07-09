@@ -59,3 +59,14 @@ Run this the day before launch, not the day of. Every item is a binary — done 
 - [ ] Error monitoring (Sentry) live with releases tagged.
 - [ ] Someone on call for the first 24 hours.
 - [ ] Rollback plan documented — one command or one click.
+
+## "Doesn't look vibe-coded" polish
+
+Plaintiffs, reviewers, and Hacker News all use the same tells. Fix them before publishing.
+
+- [ ] **Lovable badge hidden** — Publish settings → badge visibility → off. Or the site instantly reads as "AI slop demo".
+- [ ] **Every CTA smoke-tested from a fresh browser** — click every "Buy", "Sign up", "Book", "Get started" on the live URL. No dead links, no console errors, no 404s, no forms that submit to nowhere.
+- [ ] **Legal footer on every page** — Privacy, Terms, Contact, support email visible in the footer of every route (not just `/`). Missing footer legal links is the #1 "vibe-coded" tell after the badge.
+- [ ] **Animation restraint** — max ~2 scroll-triggered animations per section. If you use Framer Motion / GSAP, wire `useReducedMotion()` and respect `prefers-reduced-motion`. Endless parallax reads as generic AI landing page.
+- [ ] **Real content, no lorem ipsum, no placeholder images** — search the repo for `lorem`, `placeholder`, `PlaceholderIndex`, `REPLACE this`, `unsplash.com/random`.
+- [ ] **ADA scan passes** — run `ada-accessibility-audit`. ADA-troll lawyers scan Product Hunt launches automatically.

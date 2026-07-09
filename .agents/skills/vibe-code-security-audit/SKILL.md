@@ -5,7 +5,9 @@ description: Audit a vibe-coded app for the most common security & reliability f
 
 # Vibe-Code Security Audit
 
-This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app. It scans the repo for the top ~12 issues that break real apps once users show up, groups findings by severity, and offers a copy-pasteable fix for each one from `references/`.
+This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app. It scans the repo for the top ~15 issues that break real apps once users show up, groups findings by severity, and offers a copy-pasteable fix for each one from `references/`.
+
+**Default to stacks that harden the boring parts for you** — Supabase RLS + policies, Clerk / Supabase Auth for sessions, Cloudflare in front for DDoS + Turnstile captcha, Firebase Rules if that's your stack. The vibe-coded apps that hold up under attack all have at least one of these doing the heavy lifting — don't hand-roll it.
 
 ## When to trigger
 
@@ -46,6 +48,8 @@ This skill is the "did I ship something dumb?" pass for a vibe-coded Lovable app
 | 11 | 4-byte UTF-8 / emoji crashes — `utf8` vs `utf8mb4`, `.length` vs grapheme count, tight `varchar(N)` | `references/11-utf8mb4-emoji.md` |
 | 12 | No test suite and/or no observability (Sentry, health check, uptime) before launch | `references/12-tests-and-observability.md` |
 | 13 | IDOR — endpoints read rows by ID without checking ownership; sequential IDs in URLs; `supabaseAdmin` on user data path | `references/13-idor.md` |
+| 14 | AI cost caps enforced client-side / on a table the user can UPDATE (BetterHelp-style $10k bill) | `references/15-ai-usage-caps.md` |
+| 15 | Public forms (signup, reset, GDPR, contact) with no captcha, no per-IP throttle, no IP ban | `references/16-abuse-mitigation.md` |
 
 ## Non-goals
 
