@@ -30,9 +30,39 @@ Apply one distinct UI aesthetic to the current project by editing tokens in `src
 | Retro-Y2K | `references/retro-y2k.md` | Chrome, gradients, aqua buttons, pixel accents |
 | Cyberpunk-Neon | `references/cyberpunk-neon.md` | Dark base, neon glow rings, mono type |
 
+## Component restyle prompts (uistyle.lovable.app set)
+
+`references/prompts/` holds 17 strict, copy-paste restyle prompts. Each one restyles a single component's aesthetic layer only — layout, JSX structure, hierarchy, labels, and functionality must not change — and includes exact hex values, shadow values, radii, typography, and a FORBIDDEN list.
+
+Use these when the user wants **one component** transformed rather than the whole app theme. Use the token files above when they want the **whole app's** design system changed.
+
+| Style | Prompt file |
+| --- | --- |
+| Neumorphism | `references/prompts/neumorphism.md` |
+| Soft UI | `references/prompts/soft-ui.md` |
+| Glassmorphism | `references/prompts/glassmorphism.md` |
+| Claymorphism | `references/prompts/claymorphism.md` |
+| Gooey / Liquid Morphism | `references/prompts/gooey-liquid-morphism.md` |
+| Minimal Brutalism | `references/prompts/minimal-brutalism.md` |
+| Skeuomorphic Revival | `references/prompts/skeuomorphic-revival.md` |
+| Kinetic Minimalism | `references/prompts/kinetic-minimalism.md` |
+| Hyperflat / Flat 3.0 | `references/prompts/hyperflat-flat-3-0.md` |
+| Aurorism | `references/prompts/aurorism.md` |
+| Digital Bauhaus | `references/prompts/digital-bauhaus.md` |
+| Chromatic Vaporwave Minimalism | `references/prompts/chromatic-vaporwave-minimalism.md` |
+| Isomorphic 3D | `references/prompts/isomorphic-3d.md` |
+| Frosted Metal Aesthetic | `references/prompts/frosted-metal-aesthetic.md` |
+| Color-Form Modernism | `references/prompts/color-form-modernism.md` |
+| Retrofuturism | `references/prompts/retrofuturism.md` |
+| Retro-Tech Terminal Modernism | `references/prompts/retro-tech-terminal-modernism.md` |
+
+When applying one of these in a Lovable project, still route colors through tokens or scoped utilities in `src/styles.css` instead of hardcoding hex in JSX — translate the prompt's hex values into `oklch()` tokens.
+
 ## Rules
 
 - Only edit `src/styles.css` — never hardcode colors in components.
 - All colors in `oklch()`. Keep existing shadcn token names (`--background`, `--foreground`, `--primary`, etc.) — override values, don't rename.
 - Add style-specific extras as new tokens (`--shadow-neo`, `--surface-glass`) and expose them via `@theme inline` when needed as utilities.
 - One style at a time. If switching, remove the previous style's extra tokens/utilities first.
+- Follow each prompt's FORBIDDEN list literally — those constraints are what keep the style recognizable.
+
