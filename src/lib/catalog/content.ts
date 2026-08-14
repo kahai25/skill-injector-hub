@@ -12,8 +12,18 @@ const modules = import.meta.glob("/.agents/skills/**/*.md", {
 
 const prefix = "/.agents/skills/";
 
+/** Strip a leading YAML frontmatter block (---...---) from markdown text. */
+function stripFrontmatter(source: string): string {
+  const trimmed = source.trimStart();
+  if (!trimmed.startsWith("---")) return source;
+  const end = trimmed.indexOf("---", 3);
+  if (end === -1) return source;
+  return trimmed.slice(end + 3).replace(/^\n*/, "");
+}
+
 export function getSkillFileContent(slug: string, file: string): string | null {
-  return modules[`${prefix}${slug}/${file}`] ?? null;
+  const raw = modules[`${prefix}${slug}/${file}`] ?? null;
+  return raw && file.endsWith(".md") ? stripFrontmatter(raw) : raw;
 }
 
 export function getSkillDoc(slug: string): string | null {
