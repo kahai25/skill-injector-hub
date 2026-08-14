@@ -1,10 +1,12 @@
 import { Github, Star } from "lucide-react";
 
 import { isPromptPending } from "@/lib/inject-prompt";
+import { formatPushedAt, useRepoStats } from "@/lib/repo-stats";
 import type { Skill } from "@/lib/catalog/types";
 
 export function RepoCredit({ skill }: { skill: Skill }) {
   const pending = isPromptPending(skill);
+  const stats = useRepoStats(skill.repo.name);
 
   return (
     <aside className="panel p-4">
@@ -37,7 +39,7 @@ export function RepoCredit({ skill }: { skill: Skill }) {
       <dl className="mt-4 space-y-2 text-[11px]">
         <div className="flex justify-between gap-2">
           <dt className="text-muted-foreground">license</dt>
-          <dd>{skill.repo.license}</dd>
+          <dd>{stats.license ?? skill.repo.license}</dd>
         </div>
         <div className="flex justify-between gap-2">
           <dt className="text-muted-foreground">branch</dt>
@@ -45,7 +47,11 @@ export function RepoCredit({ skill }: { skill: Skill }) {
         </div>
         <div className="flex justify-between gap-2">
           <dt className="text-muted-foreground">stars</dt>
-          <dd className="text-muted-foreground">live count in v0.2</dd>
+          <dd className="text-primary">{stats.stars}</dd>
+        </div>
+        <div className="flex justify-between gap-2">
+          <dt className="text-muted-foreground">last push</dt>
+          <dd>{formatPushedAt(stats.pushedAt)}</dd>
         </div>
       </dl>
 
