@@ -5,9 +5,10 @@ import { Link } from "@tanstack/react-router";
 const READY = [
   { to: "/", label: "home", exact: true },
   { to: "/skills", label: "skills", exact: false },
+  { to: "/about", label: "about", exact: true },
 ] as const;
 
-const PENDING = ["submit", "about"] as const;
+const PENDING = ["submit"] as const;
 
 export function SiteHeader() {
   return (
