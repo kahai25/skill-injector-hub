@@ -6,7 +6,7 @@ import { SkillCard } from "@/components/hub/SkillCard";
 import { SKILLS } from "@/lib/catalog/skills";
 import type { Category, Platform } from "@/lib/catalog/types";
 
-export const Route = createFileRoute("/skills")({
+export const Route = createFileRoute("/skills/")({
   head: () => ({
     meta: [
       { title: "Skill catalog — Skill Injector Hub" },
