@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      install_events: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          skill_slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          skill_slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          skill_slug?: string
+        }
+        Relationships: []
+      }
       skill_cache: {
         Row: {
           cached_at: string
@@ -44,9 +65,78 @@ export type Database = {
         }
         Relationships: []
       }
+      submission_rate_limits: {
+        Row: {
+          bucket_key: string
+          count: number
+          id: string
+          window_start: string
+        }
+        Insert: {
+          bucket_key: string
+          count?: number
+          id?: string
+          window_start: string
+        }
+        Update: {
+          bucket_key?: string
+          count?: number
+          id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      submissions: {
+        Row: {
+          created_at: string
+          id: string
+          ip_hash: string | null
+          notes: string | null
+          repo_name: string
+          repo_owner: string
+          repo_url: string
+          skill_description: string | null
+          skill_name: string | null
+          status: string
+          subdir: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          notes?: string | null
+          repo_name: string
+          repo_owner: string
+          repo_url: string
+          skill_description?: string | null
+          skill_name?: string | null
+          status?: string
+          subdir?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          ip_hash?: string | null
+          notes?: string | null
+          repo_name?: string
+          repo_owner?: string
+          repo_url?: string
+          skill_description?: string | null
+          skill_name?: string | null
+          status?: string
+          subdir?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
-      [_ in never]: never
+      skill_install_counts: {
+        Row: {
+          installs: number | null
+          skill_slug: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never

@@ -5,10 +5,12 @@ import { Link } from "@tanstack/react-router";
 const READY = [
   { to: "/", label: "home", exact: true },
   { to: "/skills", label: "skills", exact: false },
+  { to: "/submit", label: "submit", exact: true },
   { to: "/about", label: "about", exact: true },
 ] as const;
 
-const PENDING = ["submit"] as const;
+const PENDING: readonly string[] = [];
+
 
 export function SiteHeader() {
   return (
