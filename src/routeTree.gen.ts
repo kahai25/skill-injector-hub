@@ -13,6 +13,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SkillsIndexRouteImport } from './routes/skills.index'
 import { Route as SkillsSlugRouteImport } from './routes/skills.$slug'
+import { Route as ApiPublicSubmitSkillRouteImport } from './routes/api/public/submit-skill'
 import { Route as ApiPublicRefreshGithubCacheRouteImport } from './routes/api/public/refresh-github-cache'
 
 const AboutRoute = AboutRouteImport.update({
@@ -35,6 +36,11 @@ const SkillsSlugRoute = SkillsSlugRouteImport.update({
   path: '/skills/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicSubmitSkillRoute = ApiPublicSubmitSkillRouteImport.update({
+  id: '/api/public/submit-skill',
+  path: '/api/public/submit-skill',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicRefreshGithubCacheRoute =
   ApiPublicRefreshGithubCacheRouteImport.update({
     id: '/api/public/refresh-github-cache',
@@ -48,6 +54,7 @@ export interface FileRoutesByFullPath {
   '/skills/$slug': typeof SkillsSlugRoute
   '/skills/': typeof SkillsIndexRoute
   '/api/public/refresh-github-cache': typeof ApiPublicRefreshGithubCacheRoute
+  '/api/public/submit-skill': typeof ApiPublicSubmitSkillRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -55,6 +62,7 @@ export interface FileRoutesByTo {
   '/skills/$slug': typeof SkillsSlugRoute
   '/skills': typeof SkillsIndexRoute
   '/api/public/refresh-github-cache': typeof ApiPublicRefreshGithubCacheRoute
+  '/api/public/submit-skill': typeof ApiPublicSubmitSkillRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -63,6 +71,7 @@ export interface FileRoutesById {
   '/skills/$slug': typeof SkillsSlugRoute
   '/skills/': typeof SkillsIndexRoute
   '/api/public/refresh-github-cache': typeof ApiPublicRefreshGithubCacheRoute
+  '/api/public/submit-skill': typeof ApiPublicSubmitSkillRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -72,6 +81,7 @@ export interface FileRouteTypes {
     | '/skills/$slug'
     | '/skills/'
     | '/api/public/refresh-github-cache'
+    | '/api/public/submit-skill'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -79,6 +89,7 @@ export interface FileRouteTypes {
     | '/skills/$slug'
     | '/skills'
     | '/api/public/refresh-github-cache'
+    | '/api/public/submit-skill'
   id:
     | '__root__'
     | '/'
@@ -86,6 +97,7 @@ export interface FileRouteTypes {
     | '/skills/$slug'
     | '/skills/'
     | '/api/public/refresh-github-cache'
+    | '/api/public/submit-skill'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -94,6 +106,7 @@ export interface RootRouteChildren {
   SkillsSlugRoute: typeof SkillsSlugRoute
   SkillsIndexRoute: typeof SkillsIndexRoute
   ApiPublicRefreshGithubCacheRoute: typeof ApiPublicRefreshGithubCacheRoute
+  ApiPublicSubmitSkillRoute: typeof ApiPublicSubmitSkillRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -126,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/submit-skill': {
+      id: '/api/public/submit-skill'
+      path: '/api/public/submit-skill'
+      fullPath: '/api/public/submit-skill'
+      preLoaderRoute: typeof ApiPublicSubmitSkillRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/refresh-github-cache': {
       id: '/api/public/refresh-github-cache'
       path: '/api/public/refresh-github-cache'
@@ -142,6 +162,7 @@ const rootRouteChildren: RootRouteChildren = {
   SkillsSlugRoute: SkillsSlugRoute,
   SkillsIndexRoute: SkillsIndexRoute,
   ApiPublicRefreshGithubCacheRoute: ApiPublicRefreshGithubCacheRoute,
+  ApiPublicSubmitSkillRoute: ApiPublicSubmitSkillRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
