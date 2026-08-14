@@ -5,10 +5,12 @@ export function CopyButton({
   value,
   label = "Copy",
   className = "",
+  onCopied,
 }: {
   value: string;
   label?: string;
   className?: string;
+  onCopied?: () => void;
 }) {
   const [copied, setCopied] = useState(false);
 
@@ -29,8 +31,10 @@ export function CopyButton({
       document.body.removeChild(el);
     }
     setCopied(true);
+    onCopied?.();
     window.setTimeout(() => setCopied(false), 2000);
   }
+
 
   return (
     <button
