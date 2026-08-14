@@ -5,7 +5,7 @@ import type { FeaturedRepo, Skill } from "./types";
  * featured repos. Replace "PENDING" with the real username once the repos
  * exist — nothing else needs to change.
  */
-export const OWNER_GITHUB = "PENDING";
+export const OWNER_GITHUB = "kahai25";
 
 export const isOwnerPending = () => OWNER_GITHUB === "PENDING";
 
@@ -62,6 +62,7 @@ export const SKILLS: Skill[] = [
       "references/13-idor.md",
       "references/15-ai-usage-caps.md",
       "references/16-abuse-mitigation.md",
+      "references/baseline-hardening.md",
       "scripts/audit.sh",
     ],
   },
