@@ -2,12 +2,12 @@ import { Link } from "@tanstack/react-router";
 
 // Routes are built page-by-page. Items marked `ready: false` render as dimmed
 // placeholders until their route file exists, then flip to real <Link>s.
-const NAV = [
-  { to: "/", label: "home", ready: true },
-  { to: "/skills", label: "skills", ready: false },
-  { to: "/submit", label: "submit", ready: false },
-  { to: "/about", label: "about", ready: false },
+const READY = [
+  { to: "/", label: "home", exact: true },
+  { to: "/skills", label: "skills", exact: false },
 ] as const;
+
+const PENDING = ["submit", "about"] as const;
 
 export function SiteHeader() {
   return (
@@ -20,29 +20,29 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Main" className="flex items-center gap-1 text-xs">
-          {NAV.map((item) =>
-            item.ready ? (
-              <Link
-                key={item.to}
-                to="/"
-                className="border border-transparent px-2 py-1 text-muted-foreground transition-colors hover:border-border hover:text-primary"
-                activeProps={{ className: "border-border-strong text-primary crt-glow" }}
-                activeOptions={{ exact: true }}
-              >
-                {item.label}
-              </Link>
-            ) : (
-              <span
-                key={item.to}
-                aria-disabled="true"
-                className="border border-transparent px-2 py-1 text-muted-foreground/40"
-              >
-                {item.label}
-              </span>
-            ),
-          )}
+          {READY.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="border border-transparent px-2 py-1 text-muted-foreground transition-colors hover:border-border hover:text-primary"
+              activeProps={{ className: "border-border-strong text-primary crt-glow" }}
+              activeOptions={{ exact: item.exact }}
+            >
+              {item.label}
+            </Link>
+          ))}
+          {PENDING.map((label) => (
+            <span
+              key={label}
+              aria-disabled="true"
+              className="border border-transparent px-2 py-1 text-muted-foreground/40"
+            >
+              {label}
+            </span>
+          ))}
         </nav>
       </div>
     </header>
   );
 }
+

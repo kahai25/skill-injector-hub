@@ -1,4 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+
+import { TerminalHero } from "@/components/hub/TerminalHero";
+import { SkillCard } from "@/components/hub/SkillCard";
+import { FeaturedRepoCard } from "@/components/hub/FeaturedRepoCard";
+import { FEATURED_REPOS, SKILLS } from "@/lib/catalog/skills";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,32 +23,92 @@ export const Route = createFileRoute("/")({
         content:
           "Copy one inject prompt, paste it into your agent, and the skill installs itself. Free, no login, credit to the authors.",
       },
+      { property: "og:url", content: "/" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
 
-// Boot stub for step 1 (tokens + chrome). The full landing page lands in step 2.
+const STEPS = [
+  {
+    n: "01",
+    title: "pick a skill",
+    body: "Browse the catalog. Every entry shows what it does, which agents it works with, and the exact files it ships.",
+  },
+  {
+    n: "02",
+    title: "copy the inject prompt",
+    body: "One generated prompt containing the raw GitHub URLs and target paths. Nothing runs on your machine.",
+  },
+  {
+    n: "03",
+    title: "paste it into your agent",
+    body: "Your agent fetches the files verbatim into .agents/skills/<name>/ and stops. Zip download as fallback.",
+  },
+];
+
 function Index() {
+  const preview = SKILLS.slice(0, 6);
+
   return (
-    <section className="terminal-grid border-b border-border">
-      <div className="mx-auto max-w-5xl px-4 py-24">
-        <p className="text-xs text-muted-foreground">system/boot</p>
-        <h1 className="mt-4 text-3xl text-primary crt-glow sm:text-4xl">
-          <span className="text-muted-foreground">$</span> skill-injector-hub
-          <span className="caret-blink ml-1 inline-block h-6 w-2 translate-y-0.5 bg-primary align-baseline" />
-        </h1>
-        <p className="mt-6 max-w-xl text-sm leading-relaxed text-dim">
-          A free, open catalog of AI agent skills. Pick a skill, copy its inject prompt, paste
-          it into your own agent — the files land in{" "}
-          <span className="text-primary">.agents/skills/</span> and stars go back to the
-          author.
-        </p>
-        <div className="panel mt-10 max-w-md p-4 text-xs text-muted-foreground">
-          <p className="text-dim">status</p>
-          <p className="mt-2">design system + shell online. catalog wiring next.</p>
+    <>
+      <TerminalHero skillCount={SKILLS.length} />
+
+      <section id="how-it-works" className="border-b border-border">
+        <div className="mx-auto max-w-5xl px-4 py-16">
+          <h2 className="text-sm uppercase tracking-widest text-muted-foreground">
+            how it works
+          </h2>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {STEPS.map((step) => (
+              <div key={step.n} className="panel p-4">
+                <p className="text-primary crt-glow">{step.n}</p>
+                <h3 className="mt-2 text-sm text-foreground">{step.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                  {step.body}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-5xl px-4 py-16">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-sm uppercase tracking-widest text-muted-foreground">
+              featured repos
+            </h2>
+            <p className="text-[11px] text-muted-foreground">
+              maintained skill packs · stars go to the author
+            </p>
+          </div>
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {FEATURED_REPOS.map((repo) => (
+              <FeaturedRepoCard key={repo.slug} repo={repo} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="mx-auto max-w-5xl px-4 py-16">
+          <div className="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="text-sm uppercase tracking-widest text-muted-foreground">
+              in the catalog
+            </h2>
+            <Link to="/skills" className="text-xs text-primary hover:crt-glow">
+              view all {SKILLS.length} →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {preview.map((skill) => (
+              <SkillCard key={skill.slug} skill={skill} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
