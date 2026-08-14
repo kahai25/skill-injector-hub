@@ -2,14 +2,16 @@ import type { FeaturedRepo, Skill } from "./types";
 
 /**
  * Single swap point for the GitHub account that owns the hub repo and the
- * featured repos. Replace "PENDING" with the real username once the repos
- * exist — nothing else needs to change.
+ * featured repos.
  */
 export const OWNER_GITHUB = "kahai25";
 
-export const isOwnerPending = () => OWNER_GITHUB === "PENDING";
+/** The hub repo is still private; flip to true once it goes public. */
+export const HUB_REPO_PUBLIC = false;
 
 const HUB_REPO = "skill-injector-hub";
+
+export const isLocalSkill = (skill: Skill) => skill.repo.name === HUB_REPO;
 
 const author = {
   handle: OWNER_GITHUB,
