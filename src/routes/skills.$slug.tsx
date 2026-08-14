@@ -8,6 +8,7 @@ import { Markdown } from "@/components/hub/Markdown";
 import { PlatformBadge } from "@/components/hub/PlatformBadge";
 import { RepoCredit } from "@/components/hub/RepoCredit";
 import { getSkillDoc } from "@/lib/catalog/content";
+import { HUB_REPO_PUBLIC, isLocalSkill } from "@/lib/catalog/skills";
 import { getSkill } from "@/lib/catalog/skills";
 
 const TABS = ["readme", "files", "triggers", "inject"] as const;
@@ -83,6 +84,11 @@ function SkillDetail() {
             <PlatformBadge key={p} platform={p} />
           ))}
         </div>
+        {isLocalSkill(skill) && !HUB_REPO_PUBLIC ? (
+          <p className="mt-4 border border-warning/40 bg-warning/10 p-2 text-[11px] text-warning">
+            source repo not yet public — zip download works today
+          </p>
+        ) : null}
       </header>
 
       <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_16rem]">
