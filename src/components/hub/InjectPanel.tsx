@@ -1,5 +1,7 @@
 import { AlertTriangle, Download } from "lucide-react";
 
+import { recordInstall } from "@/lib/install-events";
+
 import { CopyButton } from "./CopyButton";
 import { buildInjectPrompt, buildVerifySnippet, isPromptPending, PLATFORM_NOTES } from "@/lib/inject-prompt";
 import { buildMarkdownBundle, getLocalMarkdownFiles } from "@/lib/catalog/content";
@@ -13,6 +15,7 @@ export function InjectPanel({ skill }: { skill: Skill }) {
   const bundleFiles = getLocalMarkdownFiles(skill.slug, skill.files);
 
   function downloadBundle() {
+    recordInstall(skill.slug, "zip");
     const blob = new Blob([buildMarkdownBundle(skill.slug, skill.files)], {
       type: "text/markdown;charset=utf-8",
     });
@@ -46,7 +49,11 @@ export function InjectPanel({ skill }: { skill: Skill }) {
           <h2 className="text-sm text-primary">
             <span className="text-muted-foreground">$</span> inject prompt
           </h2>
-          <CopyButton value={prompt} label="Copy inject prompt" />
+          <CopyButton
+            value={prompt}
+            label="Copy inject prompt"
+            onCopied={() => recordInstall(skill.slug, "copy")}
+          />
         </div>
         <pre className="panel max-h-[28rem] overflow-auto p-4 text-[11px] leading-relaxed whitespace-pre-wrap">
           {prompt}
