@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SkillsIndexRouteImport } from './routes/skills.index'
+import { Route as SkillsSlugRouteImport } from './routes/skills.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const SkillsIndexRoute = SkillsIndexRouteImport.update({
   path: '/skills/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SkillsSlugRoute = SkillsSlugRouteImport.update({
+  id: '/skills/$slug',
+  path: '/skills/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/skills/$slug': typeof SkillsSlugRoute
   '/skills/': typeof SkillsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/skills/$slug': typeof SkillsSlugRoute
   '/skills': typeof SkillsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/skills/$slug': typeof SkillsSlugRoute
   '/skills/': typeof SkillsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/skills/'
+  fullPaths: '/' | '/skills/$slug' | '/skills/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/skills'
-  id: '__root__' | '/' | '/skills/'
+  to: '/' | '/skills/$slug' | '/skills'
+  id: '__root__' | '/' | '/skills/$slug' | '/skills/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SkillsSlugRoute: typeof SkillsSlugRoute
   SkillsIndexRoute: typeof SkillsIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/skills/$slug': {
+      id: '/skills/$slug'
+      path: '/skills/$slug'
+      fullPath: '/skills/$slug'
+      preLoaderRoute: typeof SkillsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SkillsSlugRoute: SkillsSlugRoute,
   SkillsIndexRoute: SkillsIndexRoute,
 }
 export const routeTree = rootRouteImport
