@@ -10,6 +10,7 @@ import { RepoCredit } from "@/components/hub/RepoCredit";
 import { getSkillDoc } from "@/lib/catalog/content";
 import { HUB_REPO_PUBLIC, isLocalSkill } from "@/lib/catalog/skills";
 import { getSkill } from "@/lib/catalog/skills";
+import { useInstallCount } from "@/lib/install-events";
 
 const TABS = ["readme", "files", "triggers", "inject"] as const;
 type Tab = (typeof TABS)[number];
@@ -63,6 +64,7 @@ function SkillNotFound() {
 function SkillDetail() {
   const { skill, doc } = Route.useLoaderData();
   const [tab, setTab] = useState<Tab>("readme");
+  const installs = useInstallCount(skill.slug);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -78,6 +80,9 @@ function SkillDetail() {
         <h1 className="text-2xl text-primary crt-glow">{skill.name}</h1>
         <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
           {skill.purpose}
+        </p>
+        <p className="mt-3 text-[11px] text-muted-foreground">
+          <span className="text-primary">{installs}</span> injects recorded
         </p>
         <div className="mt-4 flex flex-wrap gap-1">
           {skill.categories.map((c) => (
