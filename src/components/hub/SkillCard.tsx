@@ -1,10 +1,18 @@
+import { Link } from "@tanstack/react-router";
+
 import type { Skill } from "@/lib/catalog/types";
 import { CategoryBadge } from "./CategoryBadge";
 import { PlatformBadge } from "./PlatformBadge";
 
 export function SkillCard({ skill }: { skill: Skill }) {
   return (
-    <article className="panel group flex h-full flex-col p-4 transition-colors hover:border-border-strong">
+    <article className="panel group relative flex h-full flex-col p-4 transition-colors hover:border-border-strong">
+      <Link
+        to="/skills/$slug"
+        params={{ slug: skill.slug }}
+        aria-label={`Open ${skill.name}`}
+        className="absolute inset-0 z-10"
+      />
       <div className="flex items-start justify-between gap-3">
         <h3 className="text-sm text-primary transition-[text-shadow] group-hover:crt-glow">
           {skill.name}
