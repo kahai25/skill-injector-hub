@@ -6,8 +6,8 @@ import type { FeaturedRepo, Skill } from "./types";
  */
 export const OWNER_GITHUB = "kahai25";
 
-/** The hub repo is still private; flip to true once it goes public. */
-export const HUB_REPO_PUBLIC = false;
+/** The hub repo is now public. */
+export const HUB_REPO_PUBLIC = true;
 
 const HUB_REPO = "skill-injector-hub";
 
