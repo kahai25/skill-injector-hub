@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 
+// Routes are built page-by-page. Items marked `ready: false` render as dimmed
+// placeholders until their route file exists, then flip to real <Link>s.
 const NAV = [
-  { to: "/", label: "home" },
-  { to: "/skills", label: "skills" },
-  { to: "/submit", label: "submit" },
-  { to: "/about", label: "about" },
+  { to: "/", label: "home", ready: true },
+  { to: "/skills", label: "skills", ready: false },
+  { to: "/submit", label: "submit", ready: false },
+  { to: "/about", label: "about", ready: false },
 ] as const;
 
 export function SiteHeader() {
@@ -18,17 +20,27 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Main" className="flex items-center gap-1 text-xs">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="border border-transparent px-2 py-1 text-muted-foreground transition-colors hover:border-border hover:text-primary"
-              activeProps={{ className: "border-border-strong text-primary crt-glow" }}
-              activeOptions={{ exact: item.to === "/" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {NAV.map((item) =>
+            item.ready ? (
+              <Link
+                key={item.to}
+                to="/"
+                className="border border-transparent px-2 py-1 text-muted-foreground transition-colors hover:border-border hover:text-primary"
+                activeProps={{ className: "border-border-strong text-primary crt-glow" }}
+                activeOptions={{ exact: true }}
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <span
+                key={item.to}
+                aria-disabled="true"
+                className="border border-transparent px-2 py-1 text-muted-foreground/40"
+              >
+                {item.label}
+              </span>
+            ),
+          )}
         </nav>
       </div>
     </header>
