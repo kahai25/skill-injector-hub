@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      skill_cache: {
+        Row: {
+          cached_at: string
+          id: string
+          license: string | null
+          pushed_at: string | null
+          repo_name: string
+          repo_owner: string
+          stars: number
+        }
+        Insert: {
+          cached_at?: string
+          id?: string
+          license?: string | null
+          pushed_at?: string | null
+          repo_name: string
+          repo_owner: string
+          stars?: number
+        }
+        Update: {
+          cached_at?: string
+          id?: string
+          license?: string | null
+          pushed_at?: string | null
+          repo_name?: string
+          repo_owner?: string
+          stars?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
