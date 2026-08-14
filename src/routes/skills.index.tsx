@@ -20,9 +20,11 @@ export const Route = createFileRoute("/skills/")({
         property: "og:description",
         content: "Search and filter open AI-agent skills you can inject into any project.",
       },
-      { property: "og:url", content: "/skills" },
+      { property: "og:url", content: "https://skill-injector-hub.lovable.app/skills" },
+      { property: "og:image", content: "https://skill-injector-hub.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://skill-injector-hub.lovable.app/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/skills" }],
+    links: [{ rel: "canonical", href: "https://skill-injector-hub.lovable.app/skills" }],
   }),
   component: SkillsCatalog,
 });
