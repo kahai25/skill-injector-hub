@@ -23,9 +23,11 @@ export const Route = createFileRoute("/")({
         content:
           "Copy one inject prompt, paste it into your agent, and the skill installs itself. Free, no login, credit to the authors.",
       },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://skill-injector-hub.lovable.app/" },
+      { property: "og:image", content: "https://skill-injector-hub.lovable.app/og-image.jpg" },
+      { name: "twitter:image", content: "https://skill-injector-hub.lovable.app/og-image.jpg" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://skill-injector-hub.lovable.app/" }],
   }),
   component: Index,
 });
