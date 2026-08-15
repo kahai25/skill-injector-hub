@@ -213,6 +213,29 @@ export const SKILLS: Skill[] = [
     ],
   },
   {
+    slug: "design-md",
+    name: "design-md",
+    purpose:
+      "Author or import a DESIGN.md — one AI-readable file carrying theme, color tokens, type scale, spacing, components and motion rules that the agent follows on every edit. Includes template, worked example, and curated free/paid gallery sources.",
+    categories: ["design"],
+    platforms: ["lovable", "claude-code", "cursor"],
+    triggers: [
+      "make it look professional",
+      "write a DESIGN.md",
+      "create a design system",
+      "match this site's style",
+      "it looks like every other AI site",
+    ],
+    author,
+    repo: hubRepo("design-md"),
+    files: [
+      "SKILL.md",
+      "assets/DESIGN.template.md",
+      "references/example-crt.md",
+      "references/galleries.md",
+    ],
+  },
+  {
     slug: "ui-style-picker",
     name: "ui-style-picker",
     purpose:
