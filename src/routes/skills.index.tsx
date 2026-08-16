@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { FilterBar } from "@/components/hub/FilterBar";
+import { ShowMoreButton } from "@/components/hub/ShowMoreButton";
 import { SkillCard } from "@/components/hub/SkillCard";
 import { SKILLS } from "@/lib/catalog/skills";
 import type { Category, Platform } from "@/lib/catalog/types";
