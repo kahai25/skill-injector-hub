@@ -53,7 +53,8 @@ const STEPS = [
 ];
 
 function Index() {
-  const preview = SKILLS.slice(0, 6);
+  const [expanded, setExpanded] = useState(false);
+  const preview = expanded ? SKILLS : SKILLS.slice(0, 6);
 
   return (
     <>
