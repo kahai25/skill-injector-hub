@@ -76,9 +76,9 @@ function SkillsCatalog() {
         resultCount={results.length}
       />
 
-      {results.length > 0 ? (
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {results.map((skill) => (
+      {visible.length > 0 ? (
+        <div id="skill-grid" className="mt-8 grid gap-4 sm:grid-cols-2">
+          {visible.map((skill) => (
             <SkillCard key={skill.slug} skill={skill} />
           ))}
         </div>
