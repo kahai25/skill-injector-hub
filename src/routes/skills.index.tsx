@@ -77,11 +77,12 @@ function SkillsCatalog() {
       />
 
       {visible.length > 0 ? (
-        <div id="skill-grid" className="mt-8 grid gap-4 sm:grid-cols-2">
-          {visible.map((skill) => (
-            <SkillCard key={skill.slug} skill={skill} />
-          ))}
-        </div>
+        <>
+          <div id="skill-grid" className="mt-8 grid gap-4 sm:grid-cols-2">
+            {visible.map((skill) => (
+              <SkillCard key={skill.slug} skill={skill} />
+            ))}
+          </div>
           {paginate && (
             <ShowMoreButton
               visible={visible.length}
