@@ -24,9 +24,9 @@ async function refresh() {
 
   const results: Array<{ repo: string; ok: boolean; stars?: number; error?: string }> = [];
 
-  for (const name of REPOS) {
+  for (const { owner, name } of REPOS) {
     try {
-      const res = await fetch(`https://api.github.com/repos/${OWNER_GITHUB}/${name}`, {
+      const res = await fetch(`https://api.github.com/repos/${owner}/${name}`, {
         headers: { Accept: "application/vnd.github+json", "User-Agent": "skill-injector-hub" },
       });
       if (!res.ok) {
