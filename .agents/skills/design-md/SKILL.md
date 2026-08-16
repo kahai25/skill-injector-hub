@@ -27,7 +27,7 @@ For motion inspiration and hero patterns, [motionsites.ai](https://motionsites.a
 
 ## What a good DESIGN.md contains
 
-See `assets/DESIGN.template.md` for the full scaffold and `references/example-crt.md` for a complete worked example. The load-bearing sections:
+See `assets/DESIGN.template.md` for the full scaffold and `references/example-crt.md` / `references/example-immersive-studio.md` for two complete worked examples. The load-bearing sections:
 
 | Section | Why it matters |
 |---|---|
