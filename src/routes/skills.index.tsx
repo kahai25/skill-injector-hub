@@ -34,6 +34,7 @@ function SkillsCatalog() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<Category | "all">("all");
   const [platform, setPlatform] = useState<Platform | "all">("all");
+  const [expanded, setExpanded] = useState(false);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
