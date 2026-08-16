@@ -20,6 +20,12 @@ export function RepoCredit({ skill }: { skill: Skill }) {
         </p>
       ) : null}
 
+      {skill.communitySourced ? (
+        <p className="mt-3 border border-border bg-secondary p-2 text-[10px] leading-relaxed text-muted-foreground">
+          community-sourced skill, original author unknown — if it&apos;s yours, submit the repo to
+          claim credit.
+        </p>
+      ) : null}
 
       <div className="mt-3 flex items-center gap-3">
         {pending ? (

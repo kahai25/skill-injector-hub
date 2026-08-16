@@ -411,6 +411,89 @@ export const SKILLS: Skill[] = [
       "references/6-timing.md",
     ],
   },
+  {
+    slug: "github-gem-seeker",
+    name: "github-gem-seeker",
+    purpose:
+      "Search GitHub for battle-tested open source tools instead of reinventing the wheel — evaluate by stars/activity, solve the problem, credit the project.",
+    categories: ["planning"],
+    platforms: ["lovable", "claude-code", "cursor"],
+    triggers: [
+      "find an open source tool for this",
+      "is there a library that does this",
+      "search GitHub before building it",
+      "don't reinvent the wheel",
+    ],
+    author,
+    repo: hubRepo("github-gem-seeker"),
+    communitySourced: true,
+    files: ["SKILL.md"],
+  },
+  {
+    slug: "internet-skill-finder",
+    name: "internet-skill-finder",
+    purpose:
+      "Search 7 verified GitHub repos for agent skills from the command line, with GitHub API integration and offline cache.",
+    categories: ["planning"],
+    platforms: ["claude-code", "cursor"],
+    triggers: [
+      "find a skill for this",
+      "search for agent skills",
+      "what skills exist for X",
+      "browse skill repos",
+    ],
+    author,
+    repo: hubRepo("internet-skill-finder"),
+    communitySourced: true,
+    files: ["SKILL.md", "scripts/fetch_skills.py"],
+  },
+  {
+    slug: "seo-audit",
+    name: "seo-audit",
+    purpose:
+      "Evidence-led, business-style SEO audit reports: verdict first, evidence second, meaning third, fix last. Includes chart generation scripts and a report template.",
+    categories: ["growth"],
+    platforms: ["lovable", "claude-code", "cursor"],
+    triggers: [
+      "run an SEO audit",
+      "write an SEO report",
+      "why is my organic traffic down",
+      "audit my site's search performance",
+    ],
+    author,
+    repo: hubRepo("seo-audit"),
+    communitySourced: true,
+    files: [
+      "SKILL.md",
+      "scripts/generate_seo_audit_charts.py",
+      "scripts/validate_exec_summary.py",
+      "templates/report_structure.md",
+    ],
+  },
+  {
+    slug: "seo-competitor-analysis",
+    name: "seo-competitor-analysis",
+    purpose:
+      "Target-first SEO competitor teardowns: dissect a competitor's organic strategy and get data-backed guidance on what to replicate or exploit.",
+    categories: ["growth"],
+    platforms: ["lovable", "claude-code", "cursor"],
+    triggers: [
+      "analyze my competitor's SEO",
+      "why do they outrank me",
+      "competitor keyword gap",
+      "teardown this competitor",
+    ],
+    author,
+    repo: hubRepo("seo-competitor-analysis"),
+    communitySourced: true,
+    files: [
+      "SKILL.md",
+      "references/data_dictionary.md",
+      "references/style_example.md",
+      "scripts/generate_seo_charts.py",
+      "scripts/validate_report_assets.py",
+    ],
+  },
 ];
 
 export const FEATURED_REPOS: FeaturedRepo[] = [
