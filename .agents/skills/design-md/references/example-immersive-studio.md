@@ -71,6 +71,16 @@ The signature move: **headline type set enormous, then animated in one glyph at 
 - The custom cursor and intercepted scroll are **accessibility risks** — keyboard navigation, focus order, and reduced-motion must all still work. Test with a keyboard and a screen reader, not just the mouse.
 - SEO: a black canvas that renders via JS ships an empty shell to crawlers. Ensure real headings and copy exist in the DOM (they do here — the marquee glyphs are real text), or prerender.
 
+## Variant: audio-reactive gated entry (EDOLUS-class)
+
+Some sites in this genre add two dimensions the base pattern doesn't cover. Both are optional but, done right, they define the experience:
+
+- **Sound as a design layer.** The site ships with ambient audio and often an "EXPERIENCE WITH HEADPHONES" prompt plus an `AUDIO on/off` toggle. Treat sound like type: it has a role, a resting state, and a mute. **Never autoplay audio** — browsers block it and it's hostile; gate it behind the entry click (below). Provide a persistent, obvious mute, and remember the user's choice. Visuals may react to the audio (amplitude driving a shader/particle field), but the site must be fully legible with sound off.
+- **Click-to-initiate portal.** Instead of dropping the visitor straight in, the loader resolves to a single gate — `INITIATE SYSTEM`, `ENTER`, a pulsing wordmark. One deliberate click starts the experience (and, not coincidentally, satisfies the browser's user-gesture requirement to start audio). This buys load time honestly and sets a cinematic tone. Keep the gate to one clear action; don't stack choices.
+- **Glyph-integrated loader.** A refinement of the custom loader: the percentage lives *inside* the wordmark — a letter's counter becomes the progress ring (EDOLUS turns the "O" into a loading dial). Highest-craft version of the handshake; only attempt it once the plain numeric loader works.
+
+Accessibility for this variant is non-negotiable: the audio toggle must be keyboard-reachable and screen-reader-labelled, the gate must be a real focusable button, and `prefers-reduced-motion` still collapses the spectacle. A cinematic entrance that traps a keyboard user is a failure, not a flex.
+
 ## Anti-patterns (never do these)
 
 1. No brand color on the chrome — color lives only inside the work.
