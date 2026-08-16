@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { OWNER_GITHUB } from "@/lib/catalog/skills";
+import { ANTHROPIC_OWNER, OWNER_GITHUB } from "@/lib/catalog/skills";
 
 /** The repos backing the catalog. A handful of unauthenticated calls/hour, limit is 60/h. */
 const REPOS = [
