@@ -79,11 +79,11 @@ Rules: one instrument-accent (here acid lime) does all the "machine is alive" wo
 The concept-narrative pattern isn't only for dark sci-fi HUDs — it works just as well wrapped in a *print* metaphor. A "propaganda newspaper" concept (imagine a 1984 Ministry-of-Truth front page) swaps the instrument aesthetic for editorial typography and adds moves the medical version doesn't have:
 
 - **Broadsheet typography.** A serif or slab masthead, an all-caps nameplate, and a real dateline (`VOL. CCCXLII NO. 58,291 — MONDAY, APRIL 4, 1984`). Multi-column body text, drop caps, hairline column rules. The typographic system *is* the concept — it must read as a newspaper, not a webpage.
-- **Redaction as a design element.** Solid censor bars (████) struck over "corrected" text — headlines whose facts change as you read, casualty numbers being "amended." The redaction block is this variant's signature visual, the equivalent of the medical version's vitals HUD.
+- **Redaction as a design element.** Solid black censor bars struck over "corrected" text — headlines whose facts change as you read, casualty numbers being "amended." The redaction block is this variant's signature visual, the equivalent of the medical version's vitals HUD.
 - **Surveillance system messages.** In-world interjections that break the fourth wall of the metaphor: `THOUGHTCRIME DETECTED`, `THIS SESSION HAS BEEN RECORDED`, `2 + 2 = 5`. These are the concept "talking back," the same role as `PROCEDURE HALTED` in the medical example.
 - **One ominous accent.** A single blood-red on black does all the alarm work; everything else is newsprint off-white on near-black.
 
-Same discipline as the base pattern: commit the metaphor to every label, and — because a "newspaper you can't trust" is still a real thing someone made — keep the actual author/credit and any real links findable, and give reduced-motion users a plain readable version. The point is the idea land, not that the reader get trapped.
+Same discipline as the base pattern: commit the metaphor to every label, and — because a "newspaper you can't trust" is still a real thing someone made — keep the actual author/credit and any real links findable, and give reduced-motion users a plain readable version. The point is that the idea lands, not that the reader gets trapped.
 
 ## Accessibility & honesty notes (this genre's failure modes)
 
