@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { TerminalHero } from "@/components/hub/TerminalHero";
 import { SkillCard } from "@/components/hub/SkillCard";
 import { FeaturedRepoCard } from "@/components/hub/FeaturedRepoCard";
+import { ShowMoreButton } from "@/components/hub/ShowMoreButton";
 import { FEATURED_REPOS, SKILLS } from "@/lib/catalog/skills";
 
 export const Route = createFileRoute("/")({
@@ -51,7 +53,8 @@ const STEPS = [
 ];
 
 function Index() {
-  const preview = SKILLS.slice(0, 6);
+  const [expanded, setExpanded] = useState(false);
+  const preview = expanded ? SKILLS : SKILLS.slice(0, 6);
 
   return (
     <>
@@ -104,11 +107,18 @@ function Index() {
               view all {SKILLS.length} →
             </Link>
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div id="skill-grid" className="mt-6 grid gap-4 sm:grid-cols-2">
             {preview.map((skill) => (
               <SkillCard key={skill.slug} skill={skill} />
             ))}
           </div>
+          <ShowMoreButton
+            visible={preview.length}
+            total={SKILLS.length}
+            expanded={expanded}
+            onExpand={() => setExpanded(true)}
+            allHref="/skills"
+          />
         </div>
       </section>
     </>

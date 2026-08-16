@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 
 import { FilterBar } from "@/components/hub/FilterBar";
+import { ShowMoreButton } from "@/components/hub/ShowMoreButton";
 import { SkillCard } from "@/components/hub/SkillCard";
 import { SKILLS } from "@/lib/catalog/skills";
 import type { Category, Platform } from "@/lib/catalog/types";
@@ -33,6 +34,7 @@ function SkillsCatalog() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<Category | "all">("all");
   const [platform, setPlatform] = useState<Platform | "all">("all");
+  const [expanded, setExpanded] = useState(false);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -48,6 +50,9 @@ function SkillsCatalog() {
   }, [query, category, platform]);
 
   const cleared = query === "" && category === "all" && platform === "all";
+  const paginate = cleared && results.length > 12;
+  const visible = paginate && !expanded ? results.slice(0, 12) : results;
+  const total = results.length;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
@@ -71,12 +76,22 @@ function SkillsCatalog() {
         resultCount={results.length}
       />
 
-      {results.length > 0 ? (
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {results.map((skill) => (
-            <SkillCard key={skill.slug} skill={skill} />
-          ))}
-        </div>
+      {visible.length > 0 ? (
+        <>
+          <div id="skill-grid" className="mt-8 grid gap-4 sm:grid-cols-2">
+            {visible.map((skill) => (
+              <SkillCard key={skill.slug} skill={skill} />
+            ))}
+          </div>
+          {paginate && (
+            <ShowMoreButton
+              visible={visible.length}
+              total={total}
+              expanded={expanded}
+              onExpand={() => setExpanded(true)}
+            />
+          )}
+        </>
       ) : (
         <div className="panel mt-8 p-8 text-center">
           <p className="text-sm text-primary">no matches</p>
