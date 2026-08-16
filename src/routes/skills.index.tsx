@@ -50,6 +50,9 @@ function SkillsCatalog() {
   }, [query, category, platform]);
 
   const cleared = query === "" && category === "all" && platform === "all";
+  const paginate = cleared && results.length > 12;
+  const visible = paginate && !expanded ? results.slice(0, 12) : results;
+  const total = results.length;
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12">
