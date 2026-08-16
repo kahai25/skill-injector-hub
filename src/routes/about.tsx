@@ -6,6 +6,49 @@ const TITLE = "About — Skill Injector Hub";
 const DESCRIPTION =
   "A free, open catalog of AI-agent skills for the Lovable community. Attribution-first, no login, no tracking, stars flow to the original authors.";
 
+const DIRECTORIES: Array<{ label: string; url: string; description: string }> = [
+  {
+    label: "anthropics/skills",
+    url: "https://github.com/anthropics/skills",
+    description: "Anthropic's official skills repo — the reference implementations.",
+  },
+  {
+    label: "VoltAgent/awesome-agent-skills",
+    url: "https://github.com/VoltAgent/awesome-agent-skills",
+    description: "1000+ agent skills indexed across multiple platforms.",
+  },
+  {
+    label: "ComposioHQ/awesome-claude-skills",
+    url: "https://github.com/ComposioHQ/awesome-claude-skills",
+    description: "Curated Claude skills list with integration-heavy picks.",
+  },
+  {
+    label: "travisvn/awesome-claude-skills",
+    url: "https://github.com/travisvn/awesome-claude-skills",
+    description: "Another well-kept awesome list of Claude skills.",
+  },
+  {
+    label: "BehiSecc/awesome-claude-skills",
+    url: "https://github.com/BehiSecc/awesome-claude-skills",
+    description: "Security-leaning collection of Claude skills.",
+  },
+  {
+    label: "github.com/topics/claude-skills",
+    url: "https://github.com/topics/claude-skills",
+    description: "Raw GitHub topic feed — newest repos as they land.",
+  },
+  {
+    label: "awesomeclaude.ai/awesome-claude-skills",
+    url: "https://awesomeclaude.ai/awesome-claude-skills",
+    description: "Browsable web index of Claude skills.",
+  },
+  {
+    label: "styles.refero.design",
+    url: "https://styles.refero.design",
+    description: "Design-system reference library — useful when authoring a DESIGN.md.",
+  },
+];
+
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
