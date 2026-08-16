@@ -30,6 +30,27 @@ function hubRepo(slug: string) {
   };
 }
 
+/** Anthropic's official skills repo — catalogued here, owned and licensed by them. */
+export const ANTHROPIC_OWNER = "anthropics";
+const ANTHROPIC_REPO = "skills";
+
+const anthropicAuthor = {
+  handle: ANTHROPIC_OWNER,
+  avatarUrl: `https://github.com/${ANTHROPIC_OWNER}.png?size=80`,
+  profileUrl: `https://github.com/${ANTHROPIC_OWNER}`,
+};
+
+function anthropicRepo(slug: string) {
+  return {
+    owner: ANTHROPIC_OWNER,
+    name: ANTHROPIC_REPO,
+    branch: "main",
+    license: "Apache-2.0",
+    url: `https://github.com/${ANTHROPIC_OWNER}/${ANTHROPIC_REPO}`,
+    subdir: `skills/${slug}`,
+  };
+}
+
 export const SKILLS: Skill[] = [
   {
     slug: "vibe-code-security-audit",
