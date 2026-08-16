@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 
 import { TerminalHero } from "@/components/hub/TerminalHero";
 import { SkillCard } from "@/components/hub/SkillCard";
 import { FeaturedRepoCard } from "@/components/hub/FeaturedRepoCard";
+import { ShowMoreButton } from "@/components/hub/ShowMoreButton";
 import { FEATURED_REPOS, SKILLS } from "@/lib/catalog/skills";
 
 export const Route = createFileRoute("/")({
