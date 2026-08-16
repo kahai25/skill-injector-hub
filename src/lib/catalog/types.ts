@@ -38,6 +38,8 @@ export type Skill = {
   files: string[];
   /** True when the skill lives in someone else's repo and is only catalogued here. */
   featuredExternal?: boolean;
+  /** True when collected from community sources with an unknown original author. */
+  communitySourced?: boolean;
 };
 
 export type FeaturedRepo = {
