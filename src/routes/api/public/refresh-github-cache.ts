@@ -37,7 +37,7 @@ async function refresh() {
       }
       const data = (await res.json()) as GithubRepo;
       const row = {
-        repo_owner: OWNER_GITHUB,
+        repo_owner: owner,
         repo_name: name,
         stars: data.stargazers_count ?? 0,
         pushed_at: data.pushed_at ?? null,
