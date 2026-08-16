@@ -82,6 +82,15 @@ function SkillsCatalog() {
             <SkillCard key={skill.slug} skill={skill} />
           ))}
         </div>
+          {paginate && (
+            <ShowMoreButton
+              visible={visible.length}
+              total={total}
+              expanded={expanded}
+              onExpand={() => setExpanded(true)}
+            />
+          )}
+        </>
       ) : (
         <div className="panel mt-8 p-8 text-center">
           <p className="text-sm text-primary">no matches</p>
