@@ -1,6 +1,7 @@
 ---
 name: design-md
-description: Give any AI-built project a real design system by authoring or importing a DESIGN.md — a single AI-readable file carrying the theme, color tokens, typography, spacing, components and motion rules the agent must follow on every edit. Ships a blank template, five worked examples (a flat green terminal system, a motion-heavy black WebGL studio, a loud anti-corporate sticker-pop editorial, a Y2K chrome atmospheric editorial, and a concept-narrative portfolio), and a curated gallery guide. Use when the user says "make it look professional", "it looks like every other AI site", "use this design", "match this site's style", "create a design system", "write a DESIGN.md", or pastes a link from styles.refero.design or motionsites.ai. Also use at project start, before any redesign, and whenever visual drift appears between pages.
+description: Give any AI-built project a real design system by authoring or importing a DESIGN.md — a single AI-readable file carrying the theme, color tokens, typography, spacing, components and motion rules the agent must follow on every edit. Ships a blank template, six worked examples (a flat green terminal system, a motion-heavy black WebGL studio, a loud anti-corporate sticker-pop editorial, a Y2K chrome atmospheric editorial, a concept-narrative portfolio, and a monospace publisher), and a curated gallery guide. Use when the user says "make it look professional", "it looks like every other AI site", "use this design", "match this site's style", "create a design system", "write a DESIGN.md", or pastes a link from styles.refero.design or motionsites.ai. Also use at project start, before any redesign, and whenever visual drift appears between pages.
+
 ---
 
 # DESIGN.md
@@ -27,7 +28,8 @@ For motion inspiration and hero patterns, [motionsites.ai](https://motionsites.a
 
 ## What a good DESIGN.md contains
 
-See `assets/DESIGN.template.md` for the full scaffold and `references/example-crt.md`, `references/example-immersive-studio.md`, `references/example-sticker-pop.md`, `references/example-chrome-editorial.md`, and `references/example-concept-portfolio.md` for five complete worked examples. The load-bearing sections:
+See `assets/DESIGN.template.md` for the full scaffold and `references/example-crt.md`, `references/example-immersive-studio.md`, `references/example-sticker-pop.md`, `references/example-chrome-editorial.md`, `references/example-concept-portfolio.md`, and `references/example-mono-publisher.md` for six complete worked examples. The load-bearing sections:
+
 
 | Section | Why it matters |
 |---|---|
@@ -56,4 +58,6 @@ See `assets/DESIGN.template.md` for the full scaffold and `references/example-cr
 | `references/example-sticker-pop.md` | Third worked example: loud flat-color "sticker-pop editorial" style (playful, anti-corporate) |
 | `references/example-chrome-editorial.md` | Fourth example: Y2K "chrome atmospheric editorial" — sky photo + scanlines + liquid-metal 3D type |
 | `references/example-concept-portfolio.md` | Fifth example: "concept-narrative portfolio" — a site built as one committed metaphor with a live HUD |
+| `references/example-mono-publisher.md` | Sixth example: "monospace publisher" — mono as a display face for editorial commerce; products are the hero |
 | `references/galleries.md` | Curated sources and exactly what each may be used for |
+

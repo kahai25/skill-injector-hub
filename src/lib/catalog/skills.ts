@@ -299,7 +299,7 @@ export const SKILLS: Skill[] = [
     slug: "design-md",
     name: "design-md",
     purpose:
-      "Author or import a DESIGN.md — one AI-readable file carrying theme, color tokens, type scale, spacing, components and motion rules the agent follows on every edit. Includes a template, five worked examples spanning a flat green CRT terminal, a motion-heavy black WebGL immersive studio, a loud anti-corporate sticker-pop editorial, a Y2K chrome atmospheric editorial, and a concept-narrative portfolio, plus curated free/paid gallery sources.",
+      "Author or import a DESIGN.md — one AI-readable file carrying theme, color tokens, type scale, spacing, components and motion rules the agent follows on every edit. Includes a template, six worked examples spanning a flat green CRT terminal, a motion-heavy black WebGL immersive studio, a loud anti-corporate sticker-pop editorial, a Y2K chrome atmospheric editorial, a concept-narrative portfolio, and a monospace publisher, plus curated free/paid gallery sources.",
     categories: ["design"],
     platforms: ["lovable", "claude-code", "cursor"],
     triggers: [
@@ -319,9 +319,11 @@ export const SKILLS: Skill[] = [
       "references/example-sticker-pop.md",
       "references/example-chrome-editorial.md",
       "references/example-concept-portfolio.md",
+      "references/example-mono-publisher.md",
       "references/galleries.md",
     ],
   },
+
   {
     slug: "ui-style-picker",
     name: "ui-style-picker",
