@@ -76,6 +76,34 @@ function AboutPage() {
       </section>
 
       <section className="mt-10">
+        <h2 className="text-sm text-primary">Find more skills</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          Other places worth browsing. We link, we don't copy.
+        </p>
+        <ul className="mt-4 space-y-3 text-sm">
+          {DIRECTORIES.map((entry) => (
+            <li key={entry.url}>
+              <a
+                href={entry.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                {entry.label}
+              </a>
+              <span className="text-muted-foreground"> — {entry.description}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Found a great skill in one of these?{" "}
+          <Link to="/submit" className="text-primary hover:underline">
+            Submit its repo on the submit page.
+          </Link>
+        </p>
+      </section>
+
+      <section className="mt-10">
         <h2 className="text-sm text-primary">Data we collect: none</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           No accounts, no cookies, no analytics, no third-party pixels, no tracking of what you
