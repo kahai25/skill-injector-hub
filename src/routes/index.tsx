@@ -107,11 +107,18 @@ function Index() {
               view all {SKILLS.length} →
             </Link>
           </div>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <div id="skill-grid" className="mt-6 grid gap-4 sm:grid-cols-2">
             {preview.map((skill) => (
               <SkillCard key={skill.slug} skill={skill} />
             ))}
           </div>
+          <ShowMoreButton
+            visible={preview.length}
+            total={SKILLS.length}
+            expanded={expanded}
+            onExpand={() => setExpanded(true)}
+            allHref="/skills"
+          />
         </div>
       </section>
     </>
