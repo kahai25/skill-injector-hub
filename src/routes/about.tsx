@@ -6,6 +6,49 @@ const TITLE = "About — Skill Injector Hub";
 const DESCRIPTION =
   "A free, open catalog of AI-agent skills for the Lovable community. Attribution-first, no login, no tracking, stars flow to the original authors.";
 
+const DIRECTORIES: Array<{ label: string; url: string; description: string }> = [
+  {
+    label: "anthropics/skills",
+    url: "https://github.com/anthropics/skills",
+    description: "Anthropic's official skills repo — the reference implementations.",
+  },
+  {
+    label: "VoltAgent/awesome-agent-skills",
+    url: "https://github.com/VoltAgent/awesome-agent-skills",
+    description: "1000+ agent skills indexed across multiple platforms.",
+  },
+  {
+    label: "ComposioHQ/awesome-claude-skills",
+    url: "https://github.com/ComposioHQ/awesome-claude-skills",
+    description: "Curated Claude skills list with integration-heavy picks.",
+  },
+  {
+    label: "travisvn/awesome-claude-skills",
+    url: "https://github.com/travisvn/awesome-claude-skills",
+    description: "Another well-kept awesome list of Claude skills.",
+  },
+  {
+    label: "BehiSecc/awesome-claude-skills",
+    url: "https://github.com/BehiSecc/awesome-claude-skills",
+    description: "Security-leaning collection of Claude skills.",
+  },
+  {
+    label: "github.com/topics/claude-skills",
+    url: "https://github.com/topics/claude-skills",
+    description: "Raw GitHub topic feed — newest repos as they land.",
+  },
+  {
+    label: "awesomeclaude.ai/awesome-claude-skills",
+    url: "https://awesomeclaude.ai/awesome-claude-skills",
+    description: "Browsable web index of Claude skills.",
+  },
+  {
+    label: "styles.refero.design",
+    url: "https://styles.refero.design",
+    description: "Design-system reference library — useful when authoring a DESIGN.md.",
+  },
+];
+
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
@@ -72,6 +115,34 @@ function AboutPage() {
           <code className="border border-border bg-secondary px-1">SKILL.md</code>, and one line on
           what it does. Requirements: a public repo, a real license file, and a SKILL.md with a
           name, description and clear trigger phrases.
+        </p>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="text-sm text-primary">Find more skills</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+          Other places worth browsing. We link, we don't copy.
+        </p>
+        <ul className="mt-4 space-y-3 text-sm">
+          {DIRECTORIES.map((entry) => (
+            <li key={entry.url}>
+              <a
+                href={entry.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline"
+              >
+                {entry.label}
+              </a>
+              <span className="text-muted-foreground"> — {entry.description}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-xs text-muted-foreground">
+          Found a great skill in one of these?{" "}
+          <Link to="/submit" className="text-primary hover:underline">
+            Submit its repo on the submit page.
+          </Link>
         </p>
       </section>
 

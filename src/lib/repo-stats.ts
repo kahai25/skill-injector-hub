@@ -17,6 +17,7 @@ export const SEED_REPO_STATS: Record<string, RepoStats> = {
   "vibe-security": { stars: 0, pushedAt: null, license: "MIT" },
   "vibe-compliance": { stars: 0, pushedAt: null, license: "MIT" },
   "lovable-hardening": { stars: 0, pushedAt: null, license: "MIT" },
+  skills: { stars: 169586, pushedAt: null, license: "Apache-2.0" },
 };
 
 export function seedStats(repoName: string): RepoStats {

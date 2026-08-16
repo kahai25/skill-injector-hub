@@ -12,6 +12,15 @@ export function RepoCredit({ skill }: { skill: Skill }) {
     <aside className="panel p-4">
       <p className="text-xs text-muted-foreground">source &amp; credit</p>
 
+      {skill.featuredExternal ? (
+        <p className="mt-3 border border-border bg-secondary p-2 text-[10px] leading-relaxed text-muted-foreground">
+          featured external skill — authored and maintained by{" "}
+          <span className="text-primary">@{skill.author.handle}</span>, not by this hub. All credit,
+          stars and license terms belong to them.
+        </p>
+      ) : null}
+
+
       <div className="mt-3 flex items-center gap-3">
         {pending ? (
           <div

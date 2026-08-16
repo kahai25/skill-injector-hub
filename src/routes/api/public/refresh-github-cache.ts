@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { OWNER_GITHUB } from "@/lib/catalog/skills";
+import { ANTHROPIC_OWNER, OWNER_GITHUB } from "@/lib/catalog/skills";
 
-/** The four repos backing the catalog. 4 unauthenticated calls/hour, limit is 60/h. */
+/** The repos backing the catalog. A handful of unauthenticated calls/hour, limit is 60/h. */
 const REPOS = [
-  "skill-injector-hub",
-  "vibe-security",
-  "vibe-compliance",
-  "lovable-hardening",
+  { owner: OWNER_GITHUB, name: "skill-injector-hub" },
+  { owner: OWNER_GITHUB, name: "vibe-security" },
+  { owner: OWNER_GITHUB, name: "vibe-compliance" },
+  { owner: OWNER_GITHUB, name: "lovable-hardening" },
+  { owner: ANTHROPIC_OWNER, name: "skills" },
 ] as const;
 
 type GithubRepo = {
@@ -23,9 +24,9 @@ async function refresh() {
 
   const results: Array<{ repo: string; ok: boolean; stars?: number; error?: string }> = [];
 
-  for (const name of REPOS) {
+  for (const { owner, name } of REPOS) {
     try {
-      const res = await fetch(`https://api.github.com/repos/${OWNER_GITHUB}/${name}`, {
+      const res = await fetch(`https://api.github.com/repos/${owner}/${name}`, {
         headers: { Accept: "application/vnd.github+json", "User-Agent": "skill-injector-hub" },
       });
       if (!res.ok) {
@@ -36,7 +37,7 @@ async function refresh() {
       }
       const data = (await res.json()) as GithubRepo;
       const row = {
-        repo_owner: OWNER_GITHUB,
+        repo_owner: owner,
         repo_name: name,
         stars: data.stargazers_count ?? 0,
         pushed_at: data.pushed_at ?? null,

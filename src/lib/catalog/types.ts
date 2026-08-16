@@ -36,6 +36,8 @@ export type Skill = {
   repo: SkillRepo;
   /** Exact repo-relative paths, relative to repo.subdir. */
   files: string[];
+  /** True when the skill lives in someone else's repo and is only catalogued here. */
+  featuredExternal?: boolean;
 };
 
 export type FeaturedRepo = {
