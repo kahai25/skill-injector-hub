@@ -2,12 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import { OWNER_GITHUB } from "@/lib/catalog/skills";
 
-/** The four repos backing the catalog. 4 unauthenticated calls/hour, limit is 60/h. */
+/** The repos backing the catalog. A handful of unauthenticated calls/hour, limit is 60/h. */
 const REPOS = [
-  "skill-injector-hub",
-  "vibe-security",
-  "vibe-compliance",
-  "lovable-hardening",
+  { owner: OWNER_GITHUB, name: "skill-injector-hub" },
+  { owner: OWNER_GITHUB, name: "vibe-security" },
+  { owner: OWNER_GITHUB, name: "vibe-compliance" },
+  { owner: OWNER_GITHUB, name: "lovable-hardening" },
+  { owner: ANTHROPIC_OWNER, name: "skills" },
 ] as const;
 
 type GithubRepo = {
